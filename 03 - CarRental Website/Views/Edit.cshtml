@@ -1,0 +1,185 @@
+﻿@model SunshineRentals.User
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+@*<h2>Edit</h2>*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            @Html.HiddenFor(model => model.UserId)
+            @Html.HiddenFor(model => model.UserName)
+            @Html.HiddenFor(model => model.Password)
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.UserName) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.IdNumber) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.IdNumber, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                            @Html.ValidationMessageFor(model => model.IdNumber)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.FirstName) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.LastName) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.BirthDate) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })*@
+                            @Html.ValidationMessageFor(model => model.BirthDate)
+                            <input id="BirthDate" name="BirthDate" class="sg-input sg-input-text" type="date" value="@Model.BirthDate" style="height: 30px;" />
+                            <span id="BirthDateError" style="font-size:smaller; color: red;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.eMail) :
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.eMail, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                            @Html.ValidationMessageFor(model => model.eMail)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" id="submit" class="btn btn-primary btn-lg specs-link" value="Update User" />
+                            <input id="btnsubmit" type="submit" style="visibility: hidden" />
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                         @if (ViewBag.ErrorMessage != "")
+                        {
+                            <td class="error">@ViewBag.ErrorMessage</td>
+                        }
+                        else {
+                            <td>@Html.ActionLink("Back to Users List", "Index1")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+    .error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        // Fill Default Values
+        $(document).ready(function () {
+            debugger;
+            var birthDay = '@(Model.BirthDate)';
+            var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/;
+            var birthDayArray = reggie.exec(birthDay);
+
+            if (birthDayArray != null) {
+                var birthDate = birthDayArray[3] + '-' + birthDayArray[2] + '-' + birthDayArray[1];// + 'T' + startDayArray[4] + ':' + startDayArray[5];
+                document.getElementById("BirthDate").value = birthDate;
+            }
+            //if (birthDay != "") {
+            //    var birthDayArray = reggie.exec(birthDay);
+            //    var actualDate = birthDayArray[3] + '-' + birthDayArray[2] + '-' + birthDayArray[1];
+            //    document.getElementById("ActualEndRental").value = actualDate;
+            //}
+        });
+
+        $(document).ready(function (e) {
+            $("#submit").click(function (e) {
+                debugger;
+                var fldBirthDate = document.getElementById('BirthDate');
+                document.getElementById('BirthDateError').innerText = "";
+                fldBirthDate.style.backgroundColor = "white";
+                //validate date format
+                
+                if (fldBirthDate.value != "") {
+                    var fldBirthDateValue = Date.parse(fldBirthDate.value);
+                    if (isNaN(fldBirthDateValue)) {
+                        //alert("From Date is not valid.");
+                        document.getElementById('BirthDateError').innerText = "Incorret date value.";
+                        fldBirthDate.style.backgroundColor = "pink";
+                        return;
+                    }
+                }
+                //// check reasonable year
+                //var reggie = /(\d{4})-(\d{2})-(\d{2})/;
+                //var birthDayArray = reggie.exec(fldBirthDate.value);
+                //if (birthDayArray[1] > 2100 || birthDayArray[1] < 1970) {
+                //    document.getElementById('ActualEndRentalError').innerText = "Illegal Date.";
+                //    fldBirthDate.style.backgroundColor = "pink";
+                //    return;
+                //}
+
+                //var x = Math.abs(Date.parse(fldBirthDate.value) - Date.parse(document.getElementById('EndRentalDate').value));
+                //if (x > 259200000) {
+                //    if (!confirm('Date diffarence is more than 3 days. Continue ?'))
+                //        return false;
+                //}
+                $('#btnsubmit').click();
+            });
+        });
+
+    </script>
+}

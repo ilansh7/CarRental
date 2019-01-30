@@ -1,0 +1,110 @@
+﻿@model IEnumerable<SunshineRentals.User>
+
+@{
+    ViewBag.Title = "Add User";
+}
+
+@*<div>
+    <div style="float: left;">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div style="float: right; padding-top: 1.5em; padding-right: 1em;">
+        <img src="~/Content/images/icons/search.png" width="24" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="searchFilter" class="searchFilter" onkeyup="searchFilter(this.value, 'tblOrders', 8)" />
+    </div>
+</div>*@
+
+
+<p>
+    <a href='@Url.Action("Register", "Account")'>
+        <img src='@Url.Content("~/Content/images/icons/addItem.png")' title='Add new User'/>
+    </a>
+</p>
+<table id="tblUsers" class="responstable" style="width: 90%;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.eMail)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+                @*@if (@Html.DisplayFor(modelItem => item.BirthDate) == null) {
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                }
+                else {
+                    @Html.DisplayFor(modelItem => item.BirthDate, "ShortDateTime")
+                }*@
+            </td>
+            <td style="width:20%;">
+                @Html.DisplayFor(modelItem => item.eMail)
+            </td>
+            <td>
+                <a href='@Url.Action("Edit", "Home", new { id = item.UserId })'>
+                    <img src='@Url.Content("~/Content/images/icons/editItem.png")' title='Modify user @item.UserName'/>
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                @{
+                    using (SunshineRentals.UsersLogic logic = new SunshineRentals.UsersLogic())
+                    {
+                        var ret = logic.IsUserOccupied(item.UserName);
+                        if (string.IsNullOrWhiteSpace(ret))
+                        { 
+                            <a href='@Url.Action("Delete", "Home", new { id = item.UserId })'>
+                                <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Remove user @item.UserName'/>
+                            </a>
+                        }
+                        else
+                        { 
+                            <a href='#' style="cursor: default;">
+                                <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Current user cannot be deleted. @ret' style="opacity: 0.2;"/>
+                            </a>
+                        }
+                    }
+                }
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.ManufactorId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ManufactorId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ManufactorId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>
