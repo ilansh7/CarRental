@@ -1,0 +1,128 @@
+﻿BODY {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 12pX;
+	font-weight: normal;
+	font-style: normal;
+	color: black;
+	background-color: #FCFEFB;
+}
+
+TABLE	{
+    border-collapse: collapse;
+    background-color: #FCFEFB;
+	border: none;
+	padding: 5px;
+	border-spacing:10px;
+}
+
+TD.alignleft	{
+	border: none;
+	text-align: left;
+	vertical-align: top;
+	background-color: #FCFEFB;
+	padding-left: 5px;
+}
+
+TD.alignright	{
+	border: none;
+	text-align: right;
+	vertical-align: top;
+	background-color: #FCFEFB;
+	padding-right: 5px;
+}
+
+TD.padright	{
+	vertical-align: top;
+	background-color: #FCFEFB;
+	padding-right: 30px;
+}
+
+P {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: inherit;
+	font-weight: inherit;
+	font-style: inherit;
+	color: black;
+}
+
+P.bodytext {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	font-style: normal;
+	color: black;
+	background-color: transparent;
+}
+
+P.bodybold {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+	color: black;
+	background-color: #FCFEFB;
+}
+
+P.error	{
+	font-family: Arial, helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	font-style: normal;
+	color: black;
+	background-color: transparent;
+}
+
+.bigquote {
+	font-family: Arial, helvetica, sans-serif;
+	font-size: 95px;
+	font-weight: bold;
+	font-style: normal;
+	color: black;
+	background-color: transparent;
+}
+
+.quote {
+	font-family: Arial, helvetica, sans-serif;
+	font-size: 35px;
+	font-weight: bold;
+	font-style: normal;
+	color: black;
+	background-color: transparent;
+	position: relative;
+	top: -100px;
+}
+
+A {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	font-style: normal;
+}
+
+A:hover {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: inherit;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	color: black;
+	background-color: #FFFF99;
+}
+
+A:link {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: inherit;
+	font-weight: inherit;
+	font-style: inherit;
+	text-decoration: none;
+	color: black;
+}
+
+A:visited {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: inherit;
+	font-weight: inherit;
+	font-style: inherit;
+	text-decoration: none;
+	color: black;
+}
