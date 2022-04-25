@@ -8,6 +8,8 @@ namespace SunshineRentals
 {
     public class RentalsLogic : BaseLogic
     {
+        #region Fleet
+
         /// <summary>
         /// Check if this manufactor have vehicles.
         /// </summary>
@@ -79,5 +81,19 @@ namespace SunshineRentals
         {
             return DB.Rentals.Any(r => r.FleetId == carId);
         }
+
+        #endregion
+
+        #region Invitation
+
+        public string AskForFreeSlot(DateTime enentStart, int eventDuration)
+        {
+            DateTime enentEnd = enentStart.AddMinutes(eventDuration);
+            var CurEvent = DB.Events.Where(f => f.Start == enentStart && f.DurationInMin == eventDuration)
+                .Select(f => f.EventID).FirstOrDefault().ToString();
+            return CurEvent;// DB.Events.Any(r => r.Subject == carId);
+        }
+
+        #endregion
     }
 }
