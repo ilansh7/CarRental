@@ -32,9 +32,10 @@ namespace SunshineRentals
         public DbSet<Manufactor> Manufactors { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<EventExtention> EventExtentions { get; set; }
+        public DbSet<Event> Events { get; set; }
     
         public virtual ObjectResult<GetAvailableCars_Result> GetAvailableCars(Nullable<int> isAutomatic, Nullable<int> year, Nullable<int> manufactor, string model, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string keywords)
         {

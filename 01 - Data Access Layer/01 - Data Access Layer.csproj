@@ -61,6 +61,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarRental.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Event.cs">
+      <DependentUpon>CarRental.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventExtention.cs">
+      <DependentUpon>CarRental.tt</DependentUpon>
+    </Compile>
     <Compile Include="Fleet.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
@@ -76,6 +82,8 @@
     <Compile Include="Manufactor.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
+    <Compile Include="PartialClass\EventExtention.cs" />
+    <Compile Include="PartialClass\Event.cs" />
     <Compile Include="PartialClass\Fleet.cs" />
     <Compile Include="PartialClass\Manufactor.cs" />
     <Compile Include="PartialClass\Rentals.cs" />
@@ -86,9 +94,6 @@
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
     <Compile Include="Role.cs">
-      <DependentUpon>CarRental.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
