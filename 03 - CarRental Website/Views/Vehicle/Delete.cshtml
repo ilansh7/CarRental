@@ -1,0 +1,108 @@
+﻿@model SunshineRentals.Vehicle
+
+@{
+    ViewBag.Title = "Delete Vehicle";
+}
+
+<div style="width: 45%; margin-left: auto; margin-right: auto;">
+    <fieldset style="width: 100%;">
+        <legend>@ViewBag.Title</legend>
+        <div style="width: 60%; float: left;">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.Manufactor.Name)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Manufactor.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.Model)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Model, new { @class = "sg-input sg-input-text" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.Year)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Year)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Automatic Transmission
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Transmission)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.DailyRentalRate)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.DailyRentalRate)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.PenaltyDailyRate)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.PenaltyDailyRate)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+
+        <div style="width: 60%; float: left;">
+            <table>
+                <tr>
+                    <td>&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" class="btn btn-primary btn-lg specs-link" value="Confirm Delete" />
+                        @Html.HiddenFor(model => model.TypeId)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>@Html.ActionLink("Back to Vehicles List", "Index")</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+</style>

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<SunshineRentals.Vehicle>
+
+@{
+    ViewBag.Title = "Vehicles";
+}
+
+<div>
+    <div style="float: left;">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div style="float: right; padding-top: 1.5em; padding-right: 1em;">
+        <img src="~/Content/images/icons/search.png" width="24" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="searchFilter" class="searchFilter" onkeyup="searchFilter(this.value, 'tblVehicles', 6)" />
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <p>
+                    <a href='@Url.Action("Create", "Vehicle")'>
+                        <img src='@Url.Content("~/Content/images/icons/addItem.png")' title='Add new Vehicle'/>
+                    </a>
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+
+<table id="tblVehicles" class="responstable">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.TypeId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Manufactor.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Model)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>Automatic Trasmission
+            @*@Html.DisplayNameFor(model => model.Transmission)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DailyRentalRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PenaltyDailyRate)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.TypeId)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufactor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td style="width: 60px;">
+                @Html.DisplayFor(modelItem => item.Transmission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DailyRentalRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PenaltyDailyRate)
+            </td>
+            <td>
+                <a href='@Url.Action("Edit", "Vehicle", new { id = item.TypeId })'>
+                    <img src='@Url.Content("~/Content/images/icons/editItem.png")' title='Modify Vehicle @item.Manufactor.Name @item.Model @item.Year'/>
+                </a>
+                &nbsp;&nbsp;&nbsp;
+            @*<a href='#' style="cursor: default;">
+                <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Current Vehicle cannot be deleted. Fleet attached.' style="opacity: 0.2;"/> 
+            </a>*@
+                @{
+        using (SunshineRentals.RentalsLogic logic = new SunshineRentals.RentalsLogic())
+        {
+            if (!logic.IsVehicleOccupied(item.TypeId))
+            { 
+                    <a href='@Url.Action("Delete", "Vehicle", new { id = item.TypeId })'>
+                        <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Remove Vehicle @item.Manufactor.Name @item.Model @item.Year'/>
+                    </a>
+            }
+            else
+            { 
+                    <a href='#' style="cursor: default;">
+                        <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Current Vehicle cannot be deleted. Fleet attached.' style="opacity: 0.2;"/>
+                    </a>
+            }
+        }
+                }
+
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.TypeId  }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>

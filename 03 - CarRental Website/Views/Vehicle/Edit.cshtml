@@ -1,0 +1,136 @@
+﻿@model SunshineRentals.Vehicle
+
+@{
+    ViewBag.Title = "Type of Vehicle";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Manufactor)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.DropDownList("ManufactorId", String.Empty)
+                            @Html.ValidationMessageFor(model => model.ManufactorId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Model)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Model, new { @class = "sg-input sg-input-text" })
+                            @Html.ValidationMessageFor(model => model.Model)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Year)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Year)
+                            @Html.ValidationMessageFor(model => model.Year)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Transmission)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Transmission)
+                            @Html.ValidationMessageFor(model => model.Transmission)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.DailyRentalRate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.DailyRentalRate)
+                            @Html.ValidationMessageFor(model => model.DailyRentalRate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.PenaltyDailyRate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.PenaltyDailyRate)
+                            @Html.ValidationMessageFor(model => model.PenaltyDailyRate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Update" />
+                            @Html.HiddenFor(model => model.TypeId)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        @if (ViewBag.ErrorMessage != "")
+                        {
+                            <td class="error">@ViewBag.ErrorMessage</td>
+                        }
+                        else {
+                            <td>@Html.ActionLink("Back to Vehicles List", "Index")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+    .error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function () {
+        $("#btnSubmit").on('click', function (e) {
+            debugger;
+            //validate date format
+
+            //document.getElementById('UserName').value = document.getElementById('formLogin').value;
+            //document.getElementById('Password').value = document.getElementById('formPass').value;
+            //document.getElementById('RememberMe').checked = document.getElementById('formRememberMe').checked;
+            //document.getElementById('submit').click();
+
+        });
+    });
+</script>
+}
