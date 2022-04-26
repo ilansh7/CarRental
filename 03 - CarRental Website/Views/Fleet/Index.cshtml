@@ -1,0 +1,111 @@
+﻿@model IEnumerable<SunshineRentals.Fleet>
+
+@{
+    ViewBag.Title = "Fleet";
+}
+
+<div style="float: left;">
+    <h3>@ViewBag.Title</h3>
+</div>
+<div style="float: right; padding-top: 1.5em; padding-right: 22em;">
+    <img src="~/Content/images/icons/search.png" width="24" />
+    &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="searchFilter" class="searchFilter" onkeyup="searchFilter(this.value, 'tblFleet', 3)" />
+</div>
+
+<table style="width: 100%;">
+    <tr>
+        <td>
+            <p>
+                <a href='@Url.Action("Create", "Fleet")'>
+                    <img src='@Url.Content("~/Content/images/icons/addItem.png")' title='Add new Car'/>
+                </a>
+            </p>
+        </td>
+    </tr>
+</table>
+
+<table id="tblFleet" class="responstable" style="width: 80%;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LicencePlate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehicle.Model)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kilometrage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReadyToUse)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicencePlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle.Manufactor.Name)&nbsp;@Html.DisplayFor(modelItem => item.Vehicle.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kilometrage)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Image)*@
+                @if (@item.Image != "")
+                {
+                    <img src='/Content/images/cars/@Url.Content(@item.Image)' title='@item.Vehicle.Manufactor.Name @item.Vehicle.Model' alt='@item.Vehicle.Manufactor.Name @item.Vehicle.Model' width="128"/>
+                }
+                else
+                { 
+                    <img src='~/Content/images/cars/Default.png' alt='Top model Sunshine Rental' width="128" />
+                }
+            </td>
+            <td style="width: 60px;">
+                @Html.DisplayFor(modelItem => item.ReadyToUse)
+            </td>
+            <td>
+                <a href='@Url.Action("Edit", "Fleet", new { id = item.FleetId })'>
+                    <img src='@Url.Content("~/Content/images/icons/editItem.png")' title='Modify Car @item.LicencePlate'/>
+                </a>
+                &nbsp;&nbsp;
+            @{
+                using (SunshineRentals.RentalsLogic logic = new SunshineRentals.RentalsLogic())
+                {
+                    if (!logic.IsCarRented(item.FleetId))
+                    { 
+                <a href='@Url.Action("Delete", "Fleet", new { id = item.FleetId })'>
+                    <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Remove Car @item.Vehicle.Manufactor.Name @item.Vehicle.Model Licence plate No. @item.LicencePlate'/>
+                </a>
+                    }
+                    else
+                    { 
+                <a href='#' style="cursor: default;">
+                    <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Current car cannot be deleted. Rental attached.' style="opacity: 0.2;"/>
+                </a>
+                    }
+                }
+            }
+                &nbsp;&nbsp;
+            
+            <a href='@Url.Action("IndexByFleet", "Rental", new { id = item.FleetId, name = item.LicencePlate })'>
+                <img src='@Url.Content("~/Content/images/icons/listDetail.png")' title='Orders of @item.LicencePlate'/>
+            </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>

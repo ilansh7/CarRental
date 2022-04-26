@@ -1,0 +1,142 @@
+﻿@model SunshineRentals.Fleet
+
+@{
+    ViewBag.Title = "Create Fleet Car";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.LicencePlate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.LicencePlate, new { @class = "sg-input sg-input-text" })
+                            @Html.ValidationMessageFor(model => model.LicencePlate)
+                            @*<input id="LicencePlate" type="text" class = "sg-input sg-input-text" value="@Model.LicencePlate" />*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.TypeId)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.DropDownListFor(model => model.Vehicle.Manufactor)*@
+                            @Html.DropDownList("TypeId", String.Empty)
+                            @Html.ValidationMessageFor(model => model.TypeId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Kilometrage)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Kilometrage)
+                            @Html.ValidationMessageFor(model => model.Kilometrage)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.ReadyToUse)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="editor-field">
+                            @Html.EditorFor(model => model.ReadyToUse)
+                            @Html.ValidationMessageFor(model => model.ReadyToUse)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Image)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.HiddenFor(model => model.Image)
+                            @*@Html.EditorFor(model => model.Image, new { @class = "imageFileClass" })*@
+                            @Html.HiddenFor(model => model.Image, new { @id = "imageFileName" })
+                            @Html.ValidationMessageFor(model => model.Image)
+                            <input id="ImageFileName" name="ImageFileName" type="file" onchange="document.getElementById('Image').value = this.files[0].name; updateImageName();" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Create Fleet Car" />
+                            @*@Html.HiddenFor(model => model.FleetId)*@
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        @if (ViewBag.ErrorMessage != "")
+                        {
+                            <td class="error">@ViewBag.ErrorMessage</td>
+                        }
+                        else {
+                            <td>@Html.ActionLink("Back to Fleet List", "Index")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+            <div id="dvImage" style="width: 40%; float: left; display: none;">
+                <div class="editor-field">
+                    <img id="imgCar" width="520" />
+                    @*<img id="img1" src="/Content/images/cars/@Model.Image"  alt="@Model.Vehicle.Manufactor.Name + ' ' + @Model.Vehicle.Model"  width="520" />*@
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+}
+
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+    .imageFileClass {
+        display: none;
+        visibility: hidden;
+        opacity: 0.1
+    }
+    .error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function updateImageName() {
+            //debugger;
+            var file = document.getElementById('ImageFileName').value;
+            var n = file.indexOf("fakepath");
+            var image = file.substr(n + 9);
+            document.getElementById('imageFileName').value = image;
+            document.getElementById('dvImage').style.display = "block";
+            document.getElementById('imgCar').src = "/Content/images/cars/" + image;
+        }
+    </script>
+}

@@ -1,0 +1,101 @@
+﻿@model SunshineRentals.Fleet
+
+@{
+    ViewBag.Title = "Delete Fleet Car";
+}
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            Manufactor / Model
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td style="font-weight: bold;">
+                            @Html.DisplayFor(model => model.Vehicle.Manufactor.Name, new { @class = "sg-input sg-input-text" }) 
+                            @Html.DisplayFor(model => model.Vehicle.Model, new { @class = "sg-input sg-input-text" })
+                            @Html.HiddenFor(model => model.Image)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.LicencePlate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.DisplayFor(model => model.LicencePlate, new { @class = "sg-input sg-input-text" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Kilometrage)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Kilometrage)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.ReadyToUse)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="editor-field">
+                            @Html.DisplayFor(model => model.ReadyToUse)
+                       </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 40%; float: left;">
+                <div class="editor-field">
+                    @*@Html.EditorFor(model => model.Image)*@
+                    <img id="img1" src="/Content/images/cars/@Model.Image"  alt="@Model.Vehicle.Manufactor.Name + ' ' + @Model.Vehicle.Model"  width="520" />
+                    @*@Html.Image(model => model.ImageUrl , "", 148)*@
+
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+           <div style="width: 60%; float: left;">
+                <table>
+                   <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Confirm Delete" />
+                            @Html.HiddenFor(model => model.FleetId)
+                            @*@Html.HiddenFor(model => model.Image)*@
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>@Html.ActionLink("Back to Fleet List", "Index")</td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+</style>
