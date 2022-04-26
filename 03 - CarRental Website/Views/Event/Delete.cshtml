@@ -1,0 +1,100 @@
+﻿@model SunshineRentals.Event
+
+@{
+    ViewBag.Title = "Delete Event";
+}
+
+<div style="width: 45%; margin-left: auto; margin-right: auto;">
+    <fieldset style="width: 100%;">
+        <legend>@ViewBag.Title</legend>
+        @*@Html.HiddenFor(model => model.ManufactorId)*@
+        <div style="width: 60%; float: left;">
+            <table>
+                <tr>
+                    <td class="bold-text">
+                        @Html.DisplayNameFor(model => model.Subject)
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Subject, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                        @*@Html.ValidationMessageFor(model => model.Name)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold-text">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Description, new { htmlAttributes = new { @class = "bold-text" } })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold-text">
+                        @Html.DisplayNameFor(model => model.Start)
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Start)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold-text">
+                        @Html.DisplayNameFor(model => model.DurationInMin)
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.DurationInMin)
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>&nbsp;&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+</div>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <div style="width: 60%; float: left;">
+            <table>
+                @*<tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>*@
+                <tr>
+                    <td>
+                        <input type="submit" class="btn btn-primary btn-lg specs-link" value="Confirm Delete" />
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>@Html.ActionLink("Back to Events List", "Index")</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+</style>
+

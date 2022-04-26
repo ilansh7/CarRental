@@ -1,0 +1,194 @@
+﻿@model SunshineRentals.Event
+
+@{
+    ViewBag.Title = "Appointment";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Subject)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Subject, new { @class = "sg-input sg-input-text" })
+                            @Html.ValidationMessageFor(model => model.Subject)
+                            @*<input id="LicencePlate" type="text" class = "sg-input sg-input-text" value="@Model.LicencePlate" />*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Description)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.HiddenFor(model => model.Description)
+                            @Html.DropDownList("MyEventTypes", (SelectList)ViewBag.MyEventTypes, "Please select", new { @class = "form-control", @id= "MyEventTypes" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Start)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Start)
+                            @Html.ValidationMessageFor(model => model.Start)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.DurationInMin)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.DurationInMin)
+                            @Html.ValidationMessageFor(model => model.DurationInMin)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.IsFullDay)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="editor-field">
+                            @Html.EditorFor(model => model.IsFullDay)
+                            @Html.ValidationMessageFor(model => model.IsFullDay)
+                        </td>
+                    </tr>
+                    @*<tr>
+            <td>
+                @Html.LabelFor(model => model.Image)
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+                @Html.EditorFor(model => model.Image, new { @class = "imageFileClass" })
+                @Html.HiddenFor(model => model.Image)
+                @Html.ValidationMessageFor(model => model.Image)
+                <input id="ImageFileName" name="ImageFileName" type="file" onchange="document.getElementById('Image').value = this.files[0].name;" />
+            </td>
+        </tr>*@
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Update" />
+                            @Html.HiddenFor(model => model.EventID)
+                            @*@Html.HiddenFor(model => model.Vehicle)*@
+                            @*<input type="text" id="myFrame" data-myValue="@ViewBag.MyTimeFrame" />*@
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        @if (ViewBag.ErrorMessage != "")
+                        {
+                            <td class="error">@ViewBag.ErrorMessage</td>
+                        }
+                        else
+                        {
+                            <td>@Html.ActionLink("Back to events List", "Index", "Event")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+            @*<div style="width: 40%; float: left;">
+                <div class="editor-field">
+                    <img id="img1" src="/Content/images/cars/@Model.Image"  alt="@Model.Vehicle.Manufactor.Name + ' ' + @Model.Vehicle.Model"  width="520" />
+                    <img id="img1" src="/Content/images/cars/_Sussita.png" width="520" />
+                </div>
+            </div>*@
+        </fieldset>
+    </div>
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+
+    .error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <link href="~/Content/style/ilan.css" rel="stylesheet" />
+    <style>
+        .imageFileClass {
+            width: 250px;
+        }
+    </style>
+    <script>
+        //var someStringValue = $("#myTimeFrame").data("MyTimeFrame")[document.getElementById('Description').value].value;
+        $(document).ready(function () {
+            //debugger;
+            var events = [];
+            $('#DurationInMin').attr('disabled', true);
+            document.getElementById('MyEventTypes').value = document.getElementById('Description').value
+            /**/
+            //alert("Appointment");
+        })
+
+        //var loadFile = function (event) {
+        //    //debugger;
+        //    var output = document.getElementById('output');
+        //    var fName = "Images/" + event.target.files[0].name;  //None path with users selected file name
+        //    if (UrlExists(fName)) {
+        //        output.src = fName;         //Do something like show image
+        //    } else {
+        //        alert("File not present"); // Do something to show file not in this path
+        //    }
+        //};
+
+        //function UrlExists(url) {
+        //    var http = new XMLHttpRequest();
+        //    http.open('HEAD', url, false);
+        //    http.send();
+        //    if (http.status != 404) {
+        //        return true;
+        //    } else {
+        //        return false;
+        //    }
+        //}
+
+        $(function () {
+            $("#MyEventTypes").on('change', function (e) {
+                var evTypeId = document.getElementById('MyEventTypes').value;
+                document.getElementById('Description').value = evTypeId
+
+                //var evId = document.getElementById('Description').value;
+                //var someStringValue = $("#myFrame").data("MyTimeFrame")[evId].value;
+                //alert(someStringValue);
+            });
+        });
+
+    </script>
+
+    <style>
+        body {
+            margin: 1em auto;
+        }
+    </style>
+
+}
