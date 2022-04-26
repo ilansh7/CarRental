@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SunshineRentals.Manufactor>
+
+@{
+    ViewBag.Title = "Manufactors";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<p>
+    <a href='@Url.Action("Create", "Manufactor")'>
+        <img src='@Url.Content("~/Content/images/icons/addItem.png")' title='Add new Manufactor'/>
+    </a>
+</p>
+<table class="responstable" style="width: 30%;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a href='@Url.Action("Edit", "Manufactor", new { id = item.ManufactorId })'>
+                    <img src='@Url.Content("~/Content/images/icons/editItem.png")' title='Modify Manufactor @item.Name'/>
+                </a>
+                &nbsp;&nbsp;&nbsp;
+            @{
+        using (SunshineRentals.RentalsLogic logic = new SunshineRentals.RentalsLogic())
+        {
+            if (!logic.IsManufactorOccupied(item.ManufactorId))
+            { 
+                <a href='@Url.Action("Delete", "Manufactor", new { id = item.ManufactorId })'>
+                    <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Remove Manufactor @item.Name'/>
+                </a>
+            }
+            else
+            { 
+                <a href='#' style="cursor: default;">
+                    <img src='@Url.Content("~/Content/images/icons/deleteItem.png")' title='Current manufactor cannot be deleted. Vehicle attached.' style="opacity: 0.2;"/>
+                </a>
+            }
+        }
+            }
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.ManufactorId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ManufactorId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ManufactorId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>

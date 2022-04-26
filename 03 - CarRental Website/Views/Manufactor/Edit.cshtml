@@ -1,0 +1,76 @@
+﻿@model SunshineRentals.Manufactor
+
+@{
+    ViewBag.Title = "Manufactor";
+}
+
+@*<h2>Edit</h2>*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            @Html.HiddenFor(model => model.ManufactorId)
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Name)
+                       </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Update" />
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                         @if (ViewBag.ErrorMessage != "")
+                        {
+                            <td class="error">@ViewBag.ErrorMessage</td>
+                        }
+                        else {
+                            <td>@Html.ActionLink("Back to Manufactors List", "Index")</td>
+                        }
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+    .error {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
