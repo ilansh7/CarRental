@@ -22,7 +22,6 @@
                         <td>
                             @Html.EditorFor(model => model.Subject, new { @class = "sg-input sg-input-text" })
                             @Html.ValidationMessageFor(model => model.Subject)
-                            @*<input id="LicencePlate" type="text" class = "sg-input sg-input-text" value="@Model.LicencePlate" />*@
                         </td>
                     </tr>
                     <tr>
@@ -66,18 +65,6 @@
                             @Html.ValidationMessageFor(model => model.IsFullDay)
                         </td>
                     </tr>
-                    @*<tr>
-            <td>
-                @Html.LabelFor(model => model.Image)
-            </td>
-            <td>&nbsp;&nbsp;</td>
-            <td>
-                @Html.EditorFor(model => model.Image, new { @class = "imageFileClass" })
-                @Html.HiddenFor(model => model.Image)
-                @Html.ValidationMessageFor(model => model.Image)
-                <input id="ImageFileName" name="ImageFileName" type="file" onchange="document.getElementById('Image').value = this.files[0].name;" />
-            </td>
-        </tr>*@
                     <tr>
                         <td>&nbsp;&nbsp;</td>
                     </tr>
@@ -85,7 +72,6 @@
                         <td>
                             <input type="submit" class="btn btn-primary btn-lg specs-link" value="Update" />
                             @Html.HiddenFor(model => model.EventID)
-                            @*@Html.HiddenFor(model => model.Vehicle)*@
                             @*<input type="text" id="myFrame" data-myValue="@ViewBag.MyTimeFrame" />*@
                         </td>
                         <td>&nbsp;&nbsp;</td>
@@ -100,12 +86,6 @@
                     </tr>
                 </table>
             </div>
-            @*<div style="width: 40%; float: left;">
-                <div class="editor-field">
-                    <img id="img1" src="/Content/images/cars/@Model.Image"  alt="@Model.Vehicle.Manufactor.Name + ' ' + @Model.Vehicle.Model"  width="520" />
-                    <img id="img1" src="/Content/images/cars/_Sussita.png" width="520" />
-                </div>
-            </div>*@
         </fieldset>
     </div>
 }
@@ -132,8 +112,6 @@
 </style>
 
 @section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-    <link href="~/Content/style/ilan.css" rel="stylesheet" />
     <style>
         .imageFileClass {
             width: 250px;
@@ -149,28 +127,6 @@
             /**/
             //alert("Appointment");
         })
-
-        //var loadFile = function (event) {
-        //    //debugger;
-        //    var output = document.getElementById('output');
-        //    var fName = "Images/" + event.target.files[0].name;  //None path with users selected file name
-        //    if (UrlExists(fName)) {
-        //        output.src = fName;         //Do something like show image
-        //    } else {
-        //        alert("File not present"); // Do something to show file not in this path
-        //    }
-        //};
-
-        //function UrlExists(url) {
-        //    var http = new XMLHttpRequest();
-        //    http.open('HEAD', url, false);
-        //    http.send();
-        //    if (http.status != 404) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
-        //}
 
         $(function () {
             $("#MyEventTypes").on('change', function (e) {

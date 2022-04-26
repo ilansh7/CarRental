@@ -54,18 +54,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.DurationInMin)
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Fleet.Vehicle.Manufactor.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fleet.Vehicle.Model)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fleet.LicencePlate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ActualEndRental)
-                </th>*@
             <th>
                 Action
             </th>
@@ -94,25 +82,6 @@
         <td>
             @Html.DisplayFor(modelItem => item.DurationInMin)
         </td>
-        @*<td>
-        </td>
-        <<td>
-            @Html.DisplayFor(modelItem => item.Fleet.Vehicle.Manufactor.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fleet.Vehicle.Model)
-        </td>
-        <td>
-            @if (item.ActualEndRental.ToString() != "")
-            {
-                @Html.DisplayFor(modelItem => item.ActualEndRental, "ShortDateTime")
-            }
-        </td>*@
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RentalId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RentalId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RentalId })
-        </td>*@
         <td>
             @if (item.Start > DateTime.Now)
             {
