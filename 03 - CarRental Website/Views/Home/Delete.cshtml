@@ -1,0 +1,66 @@
+﻿@model SunshineRentals.User
+
+@{
+    ViewBag.Title = "Delete User";
+}
+
+<div style="width: 45%; margin-left: auto; margin-right: auto;">
+    <fieldset style="width: 100%;">
+        <legend>@ViewBag.Title</legend>
+        @*@Html.HiddenFor(model => model.ManufactorId)*@
+        <div style="width: 60%; float: left;">
+            <table>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.UserName)
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "sg-input sg-input-text" } })
+                        @*@Html.ValidationMessageFor(model => model.Name)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+</div>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <div style="width: 60%; float: left;">
+            <table>
+                @*<tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>*@
+                <tr>
+                    <td>
+                        <input type="submit" class="btn btn-primary btn-lg specs-link" value="Confirm Delete" />
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>@Html.ActionLink("Back to Users List", "Index1")</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+</style>
+
