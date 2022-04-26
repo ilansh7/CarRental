@@ -1,0 +1,30 @@
+﻿@{
+    //CarRentalEntities db = new CarRentalEntities();
+    //var getUserId = db.Users.Where(u => User.Identity.Name == u.FirstName).Select(v => new { v.UserID }).Single();
+    //int userid = getUserId.UserID;
+    
+}
+
+@if (Request.IsAuthenticated)
+{
+    int userid;
+    SunshineRentals.CarRentalEntities db = new SunshineRentals.CarRentalEntities();
+    
+    using(db)
+    {
+        var getUserId = db.Users.Where(u => User.Identity.Name == u.UserName).Select(v => new { v.UserId }).Single();
+        userid = getUserId.UserId;
+    }
+    
+    <span>Hello @User.Identity.Name | @Html.ActionLink("Logout", "Logout", "Account")
+
+    </span>
+}
+else
+{
+    <span>Hello Guest |
+    @Html.ActionLink("Login", "Login", "Account")
+    |
+    @Html.ActionLink("Register", "Register", "Account")
+    </span>
+}

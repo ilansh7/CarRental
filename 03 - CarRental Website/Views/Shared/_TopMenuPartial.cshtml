@@ -1,0 +1,117 @@
+﻿<div class="example">
+    <ul id="nav">
+        <li><a href="/Home/Index">Home</a></li>
+        <li>
+            <!-- UnCommect for Car Rentals -->
+            @*<a class="fly" href="#">Rentals</a>
+            <ul class="dd">
+                <li><a href="/Rental/Search">Search</a></li>
+                @if (@User.IsInRole("User"))
+                {
+                    <li><a href="/Rental/SearchHistory">Search History</a></li>
+                }
+
+            </ul>*@
+        </li>
+        @if (@User.IsInRole("User"))
+        {
+            <li><a href="/Event/Index">Appointment</a></li>
+        }
+        <!-- UnCommect for Car Rentals -->
+        @*@if (@User.IsInRole("Manager"))
+        {
+            <li>
+                <a class="fly" href="#">Operation</a>
+                <ul class="dd">
+                    <li><a href="/Rental/CarReturn">Car Return</a></li>
+                    @if (@User.IsInRole("Admin"))
+                    {
+                        <li><a href="/Rental/Index">Orders</a></li>
+                        <li><a href="/Event/Index">Appointment</a></li>
+                        <li>
+                            <a class="fly" href="#">Fleet</a>
+                            <ul>
+                                <li><a href="/Manufactor/Index">Manufactors</a></li>
+                                <li><a href="/Vehicle/Index">Type of Vehicles</a></li>
+                                <li><a href="/Fleet/Index">Cars</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }*@
+
+        @if (@User.IsInRole("Admin"))
+        {
+            <li>
+                <a class="fly" href="#">Administration</a>
+                <ul class="dd">
+                    <li><a href="/Home/Index1">Users</a></li>
+                </ul>
+            </li>
+        }
+
+        @*<li><a href="#">About</a></li>*@
+        <li><a href="/Home/ContactPage">Contact Us</a></li>
+    </ul>
+</div>
+
+
+
+@*    
+<div class="example">
+    <ul id="nav">
+        <li><a href="/Home/Index">Home</a></li>
+        <li><a class="fly" href="#">Rentals</a>
+            <ul class="dd">
+                <li><a href="/Rental/Search">Search</a></li>
+                @*<li><a class="fly" href="#">JS / jQuery</a>
+                    <ul>
+                        <li><a href="http://www.script-tutorials.com/category/jquery/">jQuery</a></li>&nbsp;
+                        <li><a href="http://www.script-tutorials.com/category/javascript/">JS</a></li>
+                    </ul>
+                </li>* @
+                <li><a href="/Rental/SearchHistory">Search History</a></li>
+                @*<li><a href="http://www.script-tutorials.com/category/mysql/">MySQL</a></li>&nbsp;
+                <li><a href="http://www.script-tutorials.com/category/xslt/">XSLT</a></li>&nbsp;
+                <li><a href="http://www.script-tutorials.com/category/ajax/">Ajax</a></li>* @
+            </ul>
+        </li>
+        <li><a class="fly" href="#">Operation</a>
+            <ul class="dd">
+                @*<li><a class="fly" href="#">By category</a>&nbsp;
+                    <ul>* @
+                        <li><a href="/Rental/CarReturn">Car Return</a></li>
+                        <li><a href="/Rental/Index">Orders</a></li>
+                        @*<li><a class="fly" href="#">Menu1</a>
+                            <ul>
+                                <li><a href="#">Menu1</a></li>&nbsp;
+                                <li><a href="#">Menu2</a></li>&nbsp;
+                                <li><a class="fly" href="#">Menu3</a>
+                                    <ul>
+                                        <li><a href="#">Menu31</a></li>&nbsp;
+                                        <li><a href="#">Menu32</a></li>&nbsp;
+                                        <li><a href="#">Menu33</a></li>&nbsp;
+                                        <li><a href="#">Menu34</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Menu4</a></li>
+                            </ul>
+                        </li>* @
+                        @*<li><a href="http://www.script-tutorials.com/category/ajax/">Ajax</a></li>* @
+                    @*</ul>
+                </li>* @
+                <li><a class="fly" href="#">Fleet</a>
+                    <ul>
+                        <li><a href="/Manufactor/Index">Manufactors</a></li>
+                        <li><a href="/Vehicle/Index">Type of Vehicles</a></li>
+                        <li><a href="/Fleet/Index">Cars</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Go Back</a></li>
+    </ul>
+</div>
+*@ 

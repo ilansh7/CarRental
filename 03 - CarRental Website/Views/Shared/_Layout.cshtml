@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta lang="he" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/style/TopMenuStyle.css" rel="stylesheet" />
+    <link href="~/Content/style/TablesStyle.css" rel="stylesheet" />
+    <link href="~/Content/style/Login.css" rel="stylesheet" />
+    <link href="~/Content/style/Controls.css" rel="stylesheet" />
+    <link href="~/Content/style/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/Content/style/fullcalendar.print.css" rel="stylesheet" />
+    <link href="~/Content/style/bootstrap.css" rel="stylesheet" />
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+    <link rel="shortcut icon" type="image/png" href="/Content/images/icons/CuteVehicle.png" />
+    <script src="~/Scripts/utilities.js"></script>
+    <script src="~/Scripts/moment-2.18.1.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/fullcalendar-4.0.0-alpha.4.min.js"></script>
+    @*<script src="~/Scripts/bootstrap.js"></script>*@
+
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="all">
+        <div class="header">
+            @*@RenderSection("Styles", required: false)
+                @RenderSection("scripts", required: false)*@
+        </div>
+        <div style="text-align: center; width: 100%;">
+            <table style="width: 100%; border: none;">
+                <tr>
+                    <td>
+                        @Html.Partial("_LoginPartial")
+
+                    </td>
+                    @*<td><h1 id="topic" >DAVID'S CAR RENTAL</h1></td>
+                        style="margin-left: auto; margin-right: auto;"
+                        <td> <img src="/Content/Pics/DefaultCarPic.jpg" id="carImage" /></td>*@
+                </tr>
+                <tr>
+                    <td>@Html.Partial("_TopMenuPartial")</td>
+                </tr>
+            </table>
+        </div>
+        @*<div class="header1">
+                @Html.Partial("_HeaderPartial")
+            </div>*@
+        <div class="menuContent">
+            @*<div class="menu">
+                    <h2>Menu</h2>
+                    @ *<br />
+                    @Html.Partial("_SideMenuPartial")* @
+
+                    <a href="~/Account/Index">Home</a>
+                    <br />
+
+                    <a href="~/Manufactor/Index">Manufactor</a>
+                    <br />
+                    <a href="~/Fleet/Index">Fleet</a>
+                    <br />
+                    <a href="~/Vehicle/Index">Vehicle</a>
+
+                    <ul>
+                        <li style="align-self:center;">
+                            <a href="~/Rental/Index">Index</a>
+                        </li>
+                        <li>
+                            <a href="~/Rental/Edit">Edit</a>
+                        </li>
+                        <li>
+                            <a href="~/Rental/Create">Create</a>
+                        </li>
+                        <li>
+                            <a href="~/Rental/Details">Details</a>
+                        </li>
+                        <li>
+                            <a href="~/Rental/Delete">Delete</a>
+                        </li>
+                        <li>
+                            <a href="~/Rental/Search">Search</a>
+                        </li>
+
+                    </ul>
+                </div>*@
+            <div class="content">
+                @RenderSection("SubHeader", false)
+                @*<br />*@
+                <!-- הכנסת התצוגה שעלינו להציג -->
+                @RenderBody()
+                @*<hr />*@
+                @*@Html.Partial("_FooterPartial")*@
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var url = document.URL;
+            //$("#tblHistory").empty();
+            //if (url.indexOf("Rental/Search") > -1) {
+            //}
+
+            //    var myLineChart = document.getElementById("chartDiv");
+            //    document.getElementById("dvHistory").innerHTML = myLineChart.generateLegend();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+﻿@*<h1>Sunshine Car Rental website</h1>*@
+@*<canvas id="chartDiv" height="400" width="600"></canvas>*@
+<div id="dvHistory" style="display: none;" >
+    <br />
+    @*<strong>The Title or Explanation of your Map</strong>*@
+    <fieldset >
+        <legend >Search History</legend>
+        @*style="width: 70%; border: 1px solid blue;"*@
+        <table id="tblHistory" class="responstable" >
+            @*<tr>
+                    <td>
+                
+                    </td>
+                </tr>*@
+        </table>
+    </fieldset>
+</div>
+
+@*<style>
+    .dvHistory label,
+    .dvHistory span {
+        display: block;
+        float: left;
+        height: 15px;
+        width: 20%;
+        text-align: center;
+        font-size: 9px;
+        color: #808080;
+    }
+</style>*@
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = document.URL;
+        $("#tblHistory").empty();
+        if (url.indexOf("Rental/Search") > -1) {
+            //debugger;
+            var tableHasData = 0;
+            var validRow;
+            var j = localStorage.length;
+            var userName = document.getElementById('username').value;
+            if (j > 0) {
+                var trHeader = "<tr style='font-size: larger; line-height: 2.4em;'><th>Search Timestamp</th><th>Transmission</th><th>Year</th><th>Manufactor</th><th>Model</th><th>From Date</th><th>To Date</th><th>Keywords</th></tr>";
+                $("#tblHistory").append(trHeader);
+            }
+            while (j--) {
+                //debugger;
+                var key = localStorage.key(j);
+                if (key != null && key.slice(0, 6) == "Search") {
+                    var searchDate = key.slice(6, key.length);
+                    tableHasData += 1;
+                    validRow = 0;
+                    var searchExp = localStorage.getItem(key);
+                    var tr = "<tr><td align='center'>" + searchDate + "</td>";
+
+                    var vars = searchExp.split('&');
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split('=');
+                        if (pair[0] == "User" && pair[1] != userName) {
+                            break;
+                        }
+                        validRow = 1;
+                        switch (pair[0]) {
+                            //case "User":
+                            //    if (pair[1] != userName) {
+                            //        continue;
+                            //    }
+                            //    break;
+                            //
+                            case "Transmission":
+                                tr += "<td align='center'>";
+                                if (pair[1] != "-1") {
+                                    if (pair[1] == "0") {
+                                        tr += "Manual";
+                                    }
+                                    else {
+                                        tr += "Automatic";
+                                    }
+                                }
+                                tr += "</td>";
+                                break;
+                            case "Year":
+                                tr += "<td align='center'>";
+                                if (pair[1] != "0") {
+                                    tr += pair[1];
+                                }
+                                tr += "</td>";
+                                break;
+                            case "MamufId":
+                            case "Model":
+                                tr += "<td align='center'>" + pair[1] + "</td>";
+                                break;
+                            case "FromDt":
+                            case "ToDt":
+                            case "Keywords":
+                                tr += "<td align='center'>" + pair[1] + "</td>";
+                                break;
+                                //"=-1&=0&MamufId=0&Model=0&FromDt=2015-07-04&ToDt=2015-07-11&Keywords="
+                        }
+                    }
+                    //debugger;
+                    if (validRow == 1) {
+                        tr += "</tr>";
+                        $("#tblHistory").append(tr);
+                    }
+                }
+            }
+            if (tableHasData == 0) {
+                $("#tblHistory").empty();
+            }
+            else {
+                dvHistory.style.display = "block";
+            }
+        }
+    //    var myLineChart = document.getElementById("chartDiv");
+    //    document.getElementById("dvHistory").innerHTML = myLineChart.generateLegend();
+    });
+
+</script>
