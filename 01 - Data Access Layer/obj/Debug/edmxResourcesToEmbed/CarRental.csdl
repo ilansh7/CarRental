@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarRentalModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CarRentalEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Fleets" EntityType="CarRentalModel.Fleet" />
+    <EntitySet Name="Manufactors" EntityType="CarRentalModel.Manufactor" />
+    <EntitySet Name="Rentals" EntityType="CarRentalModel.Rental" />
+    <EntitySet Name="Roles" EntityType="CarRentalModel.Role" />
+    <EntitySet Name="Users" EntityType="CarRentalModel.User" />
+    <EntitySet Name="Vehicles" EntityType="CarRentalModel.Vehicle" />
+    <AssociationSet Name="FK_Fleets_Vehicles" Association="CarRentalModel.FK_Fleets_Vehicles">
+      <End Role="Vehicles" EntitySet="Vehicles" />
+      <End Role="Fleets" EntitySet="Fleets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rentals_Fleets" Association="CarRentalModel.FK_Rentals_Fleets">
+      <End Role="Fleets" EntitySet="Fleets" />
+      <End Role="Rentals" EntitySet="Rentals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Vehicles_Manufactors" Association="CarRentalModel.FK_Vehicles_Manufactors">
+      <End Role="Manufactors" EntitySet="Manufactors" />
+      <End Role="Vehicles" EntitySet="Vehicles" />
+    </AssociationSet>
+    <AssociationSet Name="UserVsRoles" Association="CarRentalModel.UserVsRoles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <FunctionImport Name="GetAvailableCars" ReturnType="Collection(CarRentalModel.GetAvailableCars_Result)">
+      <Parameter Name="isAutomatic" Mode="In" Type="Int32" />
+      <Parameter Name="year" Mode="In" Type="Int32" />
+      <Parameter Name="manufactor" Mode="In" Type="Int32" />
+      <Parameter Name="model" Mode="In" Type="String" />
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="toDate" Mode="In" Type="DateTime" />
+      <Parameter Name="keywords" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetCarForRent" ReturnType="Collection(CarRentalModel.GetCarForRent_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetUnlinkedVehicles" ReturnType="Collection(CarRentalModel.GetUnlinkedVehicles_Result)" />
+    <FunctionImport Name="InsertOrder" ReturnType="Collection(Int32)">
+      <Parameter Name="carId" Mode="In" Type="Int32" />
+      <Parameter Name="user" Mode="In" Type="String" />
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="toDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="EventExtentions" EntityType="CarRentalModel.EventExtention" />
+    <EntitySet Name="Events" EntityType="CarRentalModel.Event" />
+    <FunctionImport Name="GetAvailableSlot">
+      <Parameter Name="eventTypeId" Mode="In" Type="Int32" />
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="vwAllEvents" EntityType="CarRentalModel.vwAllEvent" />
+  </EntityContainer>
+  <EntityType Name="Fleet">
+    <Key>
+      <PropertyRef Name="FleetId" />
+    </Key>
+    <Property Name="FleetId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="LicencePlate" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <Property Name="Kilometrage" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="ReadyToUse" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Vehicle" Relationship="CarRentalModel.FK_Fleets_Vehicles" FromRole="Fleets" ToRole="Vehicles" />
+    <NavigationProperty Name="Rentals" Relationship="CarRentalModel.FK_Rentals_Fleets" FromRole="Fleets" ToRole="Rentals" />
+  </EntityType>
+  <EntityType Name="Manufactor">
+    <Key>
+      <PropertyRef Name="ManufactorId" />
+    </Key>
+    <Property Name="ManufactorId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Vehicles" Relationship="CarRentalModel.FK_Vehicles_Manufactors" FromRole="Manufactors" ToRole="Vehicles" />
+  </EntityType>
+  <EntityType Name="Rental">
+    <Key>
+      <PropertyRef Name="RentalId" />
+    </Key>
+    <Property Name="RentalId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="FleetId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="StartRentalDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EndRentalDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ActualEndRental" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Fleet" Relationship="CarRentalModel.FK_Rentals_Fleets" FromRole="Rentals" ToRole="Fleets" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Users" Relationship="CarRentalModel.UserVsRoles" FromRole="Roles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="IdNumber" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="eMail" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Roles" Relationship="CarRentalModel.UserVsRoles" FromRole="Users" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ManufactorId" Type="Int32" Nullable="false" />
+    <Property Name="Model" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="Transmission" Type="Boolean" Nullable="false" />
+    <Property Name="DailyRentalRate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="PenaltyDailyRate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <NavigationProperty Name="Fleets" Relationship="CarRentalModel.FK_Fleets_Vehicles" FromRole="Vehicles" ToRole="Fleets" />
+    <NavigationProperty Name="Manufactor" Relationship="CarRentalModel.FK_Vehicles_Manufactors" FromRole="Vehicles" ToRole="Manufactors" />
+  </EntityType>
+  <Association Name="FK_Fleets_Vehicles">
+    <End Role="Vehicles" Type="CarRentalModel.Vehicle" Multiplicity="1" />
+    <End Role="Fleets" Type="CarRentalModel.Fleet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicles">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Fleets">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rentals_Fleets">
+    <End Role="Fleets" Type="CarRentalModel.Fleet" Multiplicity="1" />
+    <End Role="Rentals" Type="CarRentalModel.Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fleets">
+        <PropertyRef Name="FleetId" />
+      </Principal>
+      <Dependent Role="Rentals">
+        <PropertyRef Name="FleetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Vehicles_Manufactors">
+    <End Role="Manufactors" Type="CarRentalModel.Manufactor" Multiplicity="1" />
+    <End Role="Vehicles" Type="CarRentalModel.Vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manufactors">
+        <PropertyRef Name="ManufactorId" />
+      </Principal>
+      <Dependent Role="Vehicles">
+        <PropertyRef Name="ManufactorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserVsRoles">
+    <End Role="Roles" Type="CarRentalModel.Role" Multiplicity="*" />
+    <End Role="Users" Type="CarRentalModel.User" Multiplicity="*" />
+  </Association>
+  <ComplexType Name="GetAvailableCars_Result">
+    <Property Type="Int32" Name="FleetId" Nullable="false" />
+    <Property Type="String" Name="LicencePlate" Nullable="false" MaxLength="20" />
+    <Property Type="Int32" Name="Year" Nullable="false" />
+    <Property Type="Boolean" Name="Auto" Nullable="false" />
+    <Property Type="String" Name="Manufactor" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Model" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Kilometrage" Nullable="false" />
+    <Property Type="String" Name="Image" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="DailyRentalRate" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="PenaltyDailyRate" Nullable="false" Precision="19" />
+  </ComplexType>
+  <ComplexType Name="GetCarForRent_Result">
+    <Property Type="Int32" Name="FleetId" Nullable="false" />
+    <Property Type="String" Name="LicencePlate" Nullable="false" MaxLength="20" />
+    <Property Type="Int32" Name="Year" Nullable="false" />
+    <Property Type="Boolean" Name="Auto" Nullable="false" />
+    <Property Type="String" Name="Manufactor" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Model" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Kilometrage" Nullable="false" />
+    <Property Type="String" Name="Image" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="DailyRentalRate" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="PenaltyDailyRate" Nullable="false" Precision="19" />
+  </ComplexType>
+  <ComplexType Name="GetUnlinkedVehicles_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="101" />
+    <Property Type="Decimal" Name="DailyRentalRate" Nullable="false" Precision="19" />
+    <Property Type="Decimal" Name="PenaltyDailyRate" Nullable="false" Precision="19" />
+  </ComplexType>
+  <EntityType Name="EventExtention">
+    <Key>
+      <PropertyRef Name="EventExtentionId" />
+    </Key>
+    <Property Name="EventExtentionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Ext_String_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Ext_String_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Ext_Numeric_1" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Ext_Date_1" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="EventID" />
+    </Key>
+    <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DurationInMin" Type="Int32" Nullable="false" />
+    <Property Name="ThemeColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsFullDay" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="GetAvailableSlot_Result">
+    <Property Type="Int32" Name="slotAvaiable" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="vwAllEvent">
+    <Key>
+      <PropertyRef Name="EventId" />
+      <PropertyRef Name="EventSubject" />
+      <PropertyRef Name="EventStartDate" />
+      <PropertyRef Name="EventDuration" />
+    </Key>
+    <Property Name="EventId" Type="Int32" Nullable="false" />
+    <Property Name="EventSubject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="EventType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="EventStartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EventEndDate" Type="DateTime" Precision="3" />
+    <Property Name="EventDuration" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

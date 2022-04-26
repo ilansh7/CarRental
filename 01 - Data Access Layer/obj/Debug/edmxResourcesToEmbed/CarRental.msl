@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarRentalModelStoreContainer" CdmEntityContainer="CarRentalEntities">
+    <EntitySetMapping Name="Fleets">
+      <EntityTypeMapping TypeName="CarRentalModel.Fleet">
+        <MappingFragment StoreEntitySet="Fleets">
+          <ScalarProperty Name="FleetId" ColumnName="FleetId" />
+          <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="Kilometrage" ColumnName="Kilometrage" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="ReadyToUse" ColumnName="ReadyToUse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Manufactors">
+      <EntityTypeMapping TypeName="CarRentalModel.Manufactor">
+        <MappingFragment StoreEntitySet="Manufactors">
+          <ScalarProperty Name="ManufactorId" ColumnName="ManufactorId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rentals">
+      <EntityTypeMapping TypeName="CarRentalModel.Rental">
+        <MappingFragment StoreEntitySet="Rentals">
+          <ScalarProperty Name="RentalId" ColumnName="RentalId" />
+          <ScalarProperty Name="FleetId" ColumnName="FleetId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="StartRentalDate" ColumnName="StartRentalDate" />
+          <ScalarProperty Name="EndRentalDate" ColumnName="EndRentalDate" />
+          <ScalarProperty Name="ActualEndRental" ColumnName="ActualEndRental" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="CarRentalModel.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CarRentalModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="IdNumber" ColumnName="IdNumber" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehicles">
+      <EntityTypeMapping TypeName="CarRentalModel.Vehicle">
+        <MappingFragment StoreEntitySet="Vehicles">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="ManufactorId" ColumnName="ManufactorId" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Transmission" ColumnName="Transmission" />
+          <ScalarProperty Name="DailyRentalRate" ColumnName="DailyRentalRate" />
+          <ScalarProperty Name="PenaltyDailyRate" ColumnName="PenaltyDailyRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserVsRoles" TypeName="CarRentalModel.UserVsRoles" StoreEntitySet="UserVsRoles">
+      <EndProperty Name="Roles">
+        <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+      </EndProperty>
+      <EndProperty Name="Users">
+        <ScalarProperty Name="UserId" ColumnName="UserID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="GetAvailableCars" FunctionName="CarRentalModel.Store.GetAvailableCars">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CarRentalModel.GetAvailableCars_Result">
+          <ScalarProperty Name="FleetId" ColumnName="FleetId" />
+          <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Auto" ColumnName="Auto" />
+          <ScalarProperty Name="Manufactor" ColumnName="Manufactor" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Kilometrage" ColumnName="Kilometrage" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="DailyRentalRate" ColumnName="DailyRentalRate" />
+          <ScalarProperty Name="PenaltyDailyRate" ColumnName="PenaltyDailyRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCarForRent" FunctionName="CarRentalModel.Store.GetCarForRent">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CarRentalModel.GetCarForRent_Result">
+          <ScalarProperty Name="FleetId" ColumnName="FleetId" />
+          <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Auto" ColumnName="Auto" />
+          <ScalarProperty Name="Manufactor" ColumnName="Manufactor" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Kilometrage" ColumnName="Kilometrage" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="DailyRentalRate" ColumnName="DailyRentalRate" />
+          <ScalarProperty Name="PenaltyDailyRate" ColumnName="PenaltyDailyRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUnlinkedVehicles" FunctionName="CarRentalModel.Store.GetUnlinkedVehicles">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="CarRentalModel.GetUnlinkedVehicles_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DailyRentalRate" ColumnName="DailyRentalRate" />
+          <ScalarProperty Name="PenaltyDailyRate" ColumnName="PenaltyDailyRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertOrder" FunctionName="CarRentalModel.Store.InsertOrder" />
+    <EntitySetMapping Name="EventExtentions">
+      <EntityTypeMapping TypeName="CarRentalModel.EventExtention">
+        <MappingFragment StoreEntitySet="EventExtention">
+          <ScalarProperty Name="Ext_Date_1" ColumnName="Ext_Date_1" />
+          <ScalarProperty Name="Ext_Numeric_1" ColumnName="Ext_Numeric_1" />
+          <ScalarProperty Name="Ext_String_2" ColumnName="Ext_String_2" />
+          <ScalarProperty Name="Ext_String_1" ColumnName="Ext_String_1" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="EventExtentionId" ColumnName="EventExtentionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Events">
+      <EntityTypeMapping TypeName="CarRentalModel.Event">
+        <MappingFragment StoreEntitySet="Events">
+          <ScalarProperty Name="IsFullDay" ColumnName="IsFullDay" />
+          <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
+          <ScalarProperty Name="DurationInMin" ColumnName="DurationInMin" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="EventID" ColumnName="EventID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetAvailableSlot" FunctionName="CarRentalModel.Store.GetAvailableSlot" />
+    <EntitySetMapping Name="vwAllEvents">
+      <EntityTypeMapping TypeName="CarRentalModel.vwAllEvent">
+        <MappingFragment StoreEntitySet="vwAllEvents">
+          <ScalarProperty Name="EventDuration" ColumnName="EventDuration" />
+          <ScalarProperty Name="EventEndDate" ColumnName="EventEndDate" />
+          <ScalarProperty Name="EventStartDate" ColumnName="EventStartDate" />
+          <ScalarProperty Name="EventType" ColumnName="EventType" />
+          <ScalarProperty Name="EventSubject" ColumnName="EventSubject" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
