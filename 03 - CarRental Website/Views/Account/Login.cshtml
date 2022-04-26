@@ -1,0 +1,118 @@
+﻿@{
+    Layout = (ViewEngines.Engines.FindView(this.ViewContext.Controller.ControllerContext, "_Layout", "").View as RazorView).ViewPath;
+}
+
+@model SunshineRentals.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+@*<p style="color: red;">
+    @ViewBag.ErrorMessage
+</p>*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            @*<h1 class="text-center login-title">Sign in to continue Booking</h1>*@
+            <div class="account-wall">
+                <img class="profile-img" src="~/Content/images/cars/Default.png" alt="">
+                <form class="form-signin">
+                    <input type="text" id="formLogin" class="form-control" placeholder="Login Name" required autofocus>
+                    <input type="password" id="formPass" class="form-control" placeholder="Password" required>
+                    <input type="button" id="btnSubmit" class="btn btn-lg btn-primary btn-block" value="Login" autofocus >
+                    @*Sign in</input>*@
+                    <label class="checkbox pull-left">
+                        <input type="checkbox" id="formRememberMe" value="remember-me">
+                        Remember me
+                    </label>
+                    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                    <a href="~/Account/Register" class="text-center new-account">Not a member yet ? register</a>
+                    <div>
+                        <label id="viewBag" class="text-center new-account" style="font-weight: bolder; color: red;"></label>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="display: none;">
+        <fieldset style="width: 30%;">
+            <legend>LoginViewModel</legend>
+
+            @*<div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>*@
+            <div class="editor-field">
+                @Html.EditorFor(model => model.UserName, new { @id = "UserName" })
+                @*@Html.ValidationMessageFor(model => model.UserName)*@
+            </div>
+
+            @*<div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>*@
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password, new { @id = "Password" })
+                @*@Html.ValidationMessageFor(model => model.Password)*@
+            </div>
+
+            @*<div class="editor-label">
+            @Html.LabelFor(model => model.RememberMe)
+        </div>*@
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RememberMe, new { @id = "RememberMe" })
+                @*@Html.ValidationMessageFor(model => model.RememberMe)*@
+            </div>
+
+            <p>
+                <input type="submit" value="Login" id="submit" />
+            </p>
+        </fieldset>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Register")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<link href="~/Content/style/Login.css" rel="stylesheet" />*@
+    @*<link href="~/Content/LoginCss.css" rel="stylesheet" />*@
+    <script>
+        $(document).ready(function () {
+            //debugger;
+            var v = '@ViewBag.ErrorMessage';
+            if (v != "") {
+                document.getElementById('viewBag').innerText = v;
+            }
+
+            //document.getElementById("tDateFrom").value = "09:00:00";
+            //document.getElementById("tDateTo").value = new Date().toDateInputValue();
+        });
+
+
+        $(function () {
+            $("#btnSubmit").on('click', function (e) {
+                //debugger;
+                //validate date format
+
+                document.getElementById('UserName').value = document.getElementById('formLogin').value;
+                document.getElementById('Password').value = document.getElementById('formPass').value;
+                document.getElementById('RememberMe').checked = document.getElementById('formRememberMe').checked;
+                document.getElementById('submit').click();
+
+            });
+        });
+    </script>
+}
+
+@*@section SubHeader {
+    <h2>Login</h2>
+}*@

@@ -1,0 +1,127 @@
+﻿@{
+    Layout = (ViewEngines.Engines.FindView(this.ViewContext.Controller.ControllerContext, "_Layout", "").View as RazorView).ViewPath;
+}
+
+@model SunshineRentals.Models.RegisterViewModel
+@*@model SunshineRentals.Models.LoginViewModel*@
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div class="card signin-card pre-shift no-name register-card" style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.IdNumber)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.IdNumber)
+                            @Html.ValidationMessageFor(model => model.IdNumber)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.FirstName)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.FirstName)
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.LastName)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.LastName)
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.UserName)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.UserName)
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Password)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.ConfirmPassword)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.ConfirmPassword)
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.eMail)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.EditorFor(model => model.eMail)
+                            @Html.ValidationMessageFor(model => model.eMail)
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary btn-lg specs-link" value="Register" />
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>@Html.ActionLink("Back to Login page", "Index")</td>
+                    </tr>
+               </table>
+            </div>
+        </fieldset>
+    </div>
+
+}
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    .sg-input-text {
+        padding: .2em .3em;
+        border-radius: .3em;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
