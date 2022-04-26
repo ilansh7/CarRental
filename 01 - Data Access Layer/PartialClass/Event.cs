@@ -27,6 +27,7 @@ namespace SunshineRentals
             //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
             //public DateTime End { get; set; }
 
+            [Display(Name = "Duration in Minutes")]
             public int DurationInMin { get; set; }
 
             public string ThemeColor { get; set; }
