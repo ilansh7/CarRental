@@ -84,16 +84,5 @@ namespace SunshineRentals
 
         #endregion
 
-        #region Invitation
-
-        public string AskForFreeSlot(DateTime enentStart, int eventDuration)
-        {
-            DateTime enentEnd = enentStart.AddMinutes(eventDuration);
-            var CurEvent = DB.Events.Where(f => f.Start == enentStart && f.DurationInMin == eventDuration)
-                .Select(f => f.EventID).FirstOrDefault().ToString();
-            return CurEvent;// DB.Events.Any(r => r.Subject == carId);
-        }
-
-        #endregion
     }
 }
