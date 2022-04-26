@@ -1,0 +1,493 @@
+﻿@{
+    Layout = (ViewEngines.Engines.FindView(this.ViewContext.Controller.ControllerContext, "_Layout", "").View as RazorView).ViewPath;
+}
+
+@model SunshineRentals.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <h3>@ViewBag.Title</h3>
+    <div id="dvFilter" class="SimpleRead" style="width: 10%; float: left; text-align: left; vertical-align: bottom;">
+        <input id="inpHideFilter" class="FilterNew" type="button" value="Hide Search Criteria" style="display: none; text-align: left;" onclick="HideFilter('inpHideFilter', 'inpShowFilter', 'dvSearchCriteria');" />
+        <input id="inpShowFilter" class="FilterNew" type="button" value="Show Search Criteria" style="display: block; text-align: left;" onclick="ShowFilter('inpHideFilter', 'inpShowFilter', 'dvSearchCriteria');" />
+    </div>
+    <div id="dvSearchCriteria" style="width: 90%; display: none;">
+        <table class="table">
+            <tr>
+                <td>
+                    <label for="Transmission">@Html.LabelFor(model => model.Transmission) : </label>
+
+                </td>
+                <td>
+                    <input type="radio" name="Transmission" id="Automatic" value="Automatic">Automatic
+                <input type="radio" name="Transmission" id="Manual" value="Manual">Manual
+                <input type="hidden" id="hdnTransmission" value="@Model.Transmission" />
+                    @*<input id="cbTransmission" type="checkbox" name="cbTransmission" />*@
+                </td>
+                @*</tr>
+    <tr>*@
+                <td>
+                    <label for="YearList">@Html.LabelFor(model => model.Year) : </label>
+                </td>
+                <td>
+                    <select id="YearList" class="sg-input sg-input-text" style="display: block;">
+                        <option value="0"></option>
+                        @for (int i = 1970; i <= DateTime.Now.Year + 1; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+
+                        @*@if (@Model.Year > 0)
+                    { 
+                        <option  selected="@Model.Year"></option>
+                    }*@
+                    </select>
+                    <input type="hidden" id="hdnYear" value="@Model.Year" />
+                </td>
+                @*</tr>
+    <tr>*@
+                <td>
+                    <label for="ManufactorList">@Html.LabelFor(model => model.MamufId) : </label>
+                </td>
+                <td>
+                    <select id="ManufactorList" class="sg-input sg-input-text"></select>
+                    <input type="hidden" id="hdnManufactor" value="@Model.MamufId" />
+                </td>
+                @*</tr>
+    <tr>*@
+                <td>
+                    <label for="ModelList">@Html.LabelFor(model => model.Model) : </label>
+                </td>
+                <td>
+                    <select id="ModelList" class="sg-input sg-input-text" style="display: none;"></select>
+                    <input type="hidden" id="hdnModel" value="@Model.Model" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="DateFrom">@Html.LabelFor(model => model.FromDt) : </label>
+                </td>
+                <td>
+                    <input id="DateFrom" type="date" class="sg-input sg-input-text" />
+                    <input type="hidden" id="hdnDateFrom" value="@Model.FromDt" />
+                    @*<input id="tDateFrom" type="time" />
+            <input id="DateFrom" type="datetime-local" />*@
+                </td>
+                <td>
+                    <label for="DateTo">@Html.LabelFor(model => model.ToDt) : </label>
+                </td>
+                <td>
+                    <input id="DateTo" type="date" class="sg-input sg-input-text" />
+                    <input type="hidden" id="hdnDateTo" value="@Model.ToDt" />
+                </td>
+                @*</tr>
+    <tr>*@
+                <td>
+                    <label for="Remarks">@Html.LabelFor(model => model.Keywords) : </label>
+                </td>
+                <td colspan="3">
+                    @*<input id="Remarks" type="text" style="width: 99%; grid-rows: 2;"/>*@
+                    <textarea id="Remarks" name="Remarks" class="sg-input sg-input-text" cols="48" rows="1">@Model.Keywords</textarea>
+                    @*<input type="hidden" id="hdnRemarks" value="@Model.Keywords" />*@
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="dvSearchButton" style="width: 90%;">
+        <table class="table">
+            @*<tr>
+            <td>&nbsp;</td>
+        </tr>*@
+            <tr>
+                <td style="align-content: center; width: 10%;">
+                    <input id="btnSearch" type="button" class="btn btn-primary btn-lg specs-link text-center new-account" value="Get me the car :" autofocus />
+                    <input id="username" type="hidden" value="@User.Identity.Name" />
+                </td>
+                <td>
+                    <label id="lblErrorMsg" class="errorMsg" ></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@*<br />*@
+@*<table id="ProductsTable" border="1" style="table-layout: fixed;" ></table>*@
+<table id="CarsTable" class="responstable" border="0" style="width: 85%;"></table>
+<br />
+<br />
+
+<style>
+    body {
+        margin: 1em;
+    }
+
+    #divScroll {
+        /*height: 400px;
+        min-height: 80%;*/
+        width: 50%;
+        background-color: pink;
+    }
+
+    #dvFooter {
+        padding-left: 2px;
+        padding-top: 2px;
+    }
+
+    #dvFilter {
+        padding-top: 2px;
+    }
+
+    .FilterNew {
+        text-decoration: underline;
+        color: gray;
+        border: none;
+        background-color: white;
+        font-size: 13px;
+    }
+
+    input[type=date], input[type=time], input[type=datetime-local], input[type=month] {
+        line-height: 14px;
+        line-height: 1.42857143;
+    }
+    .errorMsg {
+        font-size: larger;
+        font-weight: bold;
+        color: red;
+        text-decoration:wavy;
+        float: left;
+        align-content: center;
+        margin: auto;
+        margin-top: 1em;
+    }
+</style>
+
+
+
+@section scripts
+{
+    <script>
+        function doSearch() {
+            document.getElementById("btnSearch").click();
+        }
+
+        function HideFilter(HideFilter, ShowFilter, dvSearch, hdnDiv) {
+            document.getElementById(dvSearch).style.display = "none";
+            document.getElementById(HideFilter).style.display = "none";
+            document.getElementById(ShowFilter).style.display = "block";
+            //document.getElementById(hdnDiv).value = "none";
+        }
+
+        function ShowFilter(HideFilter, ShowFilter, dvSearch, hdnDiv) {
+            document.getElementById(dvSearch).style.display = "block";
+            document.getElementById(HideFilter).style.display = "block";
+            document.getElementById(ShowFilter).style.display = "none";
+            //document.getElementById(hdnDiv).value = "block";
+        }
+
+        // Fill Date Fields
+        function fillCurrentDay(src, interval) {
+            var date = new Date();
+            date.setDate(date.getDate() + interval)
+
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            var today = year + '-' + month + '-' + day;// + "T09:00";
+            //var today = year + '-' + day + '-' + month;
+            //var today = day + '/' + month + '/' + year;
+            //$("#DateFrom").value(today);;
+            document.getElementById(src).value = today;
+            //event.srcElement.innerHTML = today;
+        }
+
+        function formatDate(src) {
+            var date = new Date(document.getElementById(src).value);
+
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            return year + '-' + month + '-' + day;
+        }
+
+        // Fill the manufactor's List
+        $(function () {
+            var manufactor = document.getElementById("hdnManufactor").value
+            if (manufactor == "") {
+                //debugger;
+                $.ajax({
+                    type: "GET",        // the Verb : GET
+                    url: "/Rental/GetManufactorList",
+                    success: function (ManufactorList) {
+                        //alert(ManufactorList);
+                        //debugger;
+                        $("#ManufactorList").show();
+                        $("#ManufactorList").empty();
+                        var sel = document.getElementById('ManufactorList');
+                        var opt1 = document.createElement('option');
+                        opt1.value = 0;
+                        opt1.text = "";
+                        sel.appendChild(opt1);
+                        for (var i = 0; i < ManufactorList.length; i++) {
+                            var opt = document.createElement('option');
+                            opt.value = ManufactorList[i].ManufactorId;
+                            opt.text = ManufactorList[i].Name;
+                            sel.appendChild(opt);
+                        }
+                    },
+                    error: function (value) {
+                        //alert("Error :" + err.statusText);
+                        document.getElementById('lblErrorMsg').innerHTML = "Error :" + err.statusText;
+                    }
+                });
+            }
+        });
+
+
+        // Fill the model's List
+        $(function () {
+            $("#ManufactorList").change(function () {
+                //alert($("#ManufactorList").val());
+                $.ajax({
+                    type: "GET",        // the Verb : GET
+                    url: "/Rental/GetModelByManufactorList",
+                    data: {
+                        ManId: $("#ManufactorList").val()
+                    },
+                    success: function (ModelList) {
+                        //alert(ModelList);
+                        //debugger;
+                        $("#ModelList").show();
+                        $("#ModelList").empty();
+                        var sel = document.getElementById('ModelList');
+                        var opt1 = document.createElement('option');
+                        opt1.value = 0;
+                        opt1.text = "";
+                        sel.appendChild(opt1);
+                        for (var i = 0; i < ModelList.length; i++) {
+                            //alert(ModelList[i].Name);
+                            var opt = document.createElement('option');
+                            opt.value = ModelList[i].Model;//i;
+                            opt.text = ModelList[i].Model;
+                            sel.appendChild(opt);
+                        }
+                    },
+                    error: function (value) {
+                        //alert("Error :" + err.statusText);
+                        document.getElementById('lblErrorMsg').innerHTML = "Error :" + err.statusText;
+                    }
+                });
+            });
+        });
+
+        // Fill Default Values
+        $(document).ready(function () {
+            debugger;
+            var df = document.getElementById("hdnDateFrom").value;
+            if (df != "") {
+                $('#DateFrom').val(df);
+            }
+            else {
+                fillCurrentDay("DateFrom", 0);
+            }
+            var dt = document.getElementById("hdnDateTo").value;
+            if (dt != "") {
+                $('#DateTo').val(dt);
+            }
+            else {
+                fillCurrentDay("DateTo", 7);
+            }
+
+            var transmission = document.getElementById("hdnTransmission").value
+            if (transmission != "-1") {
+                var auto = document.getElementById("Automatic");
+                var man = document.getElementById("Manual");
+                if (transmission == "1") {
+                    auto.checked = true;
+                }
+                else {
+                    man.checked = true;
+                }
+            }
+
+            var sel = "";
+            var opt = "";
+            var year = document.getElementById("hdnYear").value
+            if (year != "0") {
+                document.getElementById("YearList").value = year;
+            }
+            var manufactor = document.getElementById("hdnManufactor").value
+            if (manufactor != "") {
+                sel = document.getElementById('ManufactorList');
+                opt = document.createElement('option');
+                opt.value = 0;
+                opt.text = manufactor;
+                sel.appendChild(opt);
+            }
+
+            var carModel = document.getElementById("hdnModel").value
+            if (carModel != "") {
+                sel = document.getElementById('ModelList');
+                opt = document.createElement('option');
+                opt.value = 0;
+                opt.text = carModel;
+                sel.appendChild(opt);
+                sel.style.display = "block";
+            }
+
+        });
+
+        $(function () {
+            $("#btnSearch").on('click', function (e) {
+                var errorLabel = document.getElementById('lblErrorMsg');
+                errorLabel.innerHTML = "";
+                //validate date format
+                var fldFDate = document.getElementById('DateFrom');
+                var fldTDate = document.getElementById('DateTo');
+                fldFDate.style.backgroundColor = "white";
+                fldTDate.style.backgroundColor = "white";
+                //var enteredDate = fldFDate.value;//("#DateFrom").prop("value");
+                var fldFDateValue = Date.parse(fldFDate.value);
+                if (isNaN(fldFDateValue)) {
+                    errorLabel.innerHTML = "From Date is not valid.";
+                    fldFDate.style.backgroundColor = "pink";
+                    return;
+                }
+                //enteredDate = fldTDate.value;//("#DateFrom").prop("value");
+                //parsed = Date.parse(enteredDate);
+                var fldTDateValue = Date.parse(fldTDate.value);
+                if (isNaN(fldTDateValue)) {
+                    errorLabel.innerHTML = "To Date is not valid.";
+                    fldTDate.style.backgroundColor = "pink";
+                    return;
+                }
+
+                if (fldTDateValue - fldFDateValue < 0) {
+                    errorLabel.innerHTML = "Illegal dates combination.";
+                    fldFDate.style.backgroundColor = "pink";
+                    return;
+                }
+
+                //var manufactorId = $("#ManufactorList").val();
+                //var year = $("#YearList").val();
+                //var fromDate = $("#DateFrom").val();
+                //var valueSelected = this.value;
+                //alert(valueSelected);
+                //if (manufactorId == 0)
+                //{
+                //    $("#CarsTable").empty();
+                //    return;
+                //}
+                var resultCounter = 0;
+                var userName = document.getElementById('username').value;
+                var fromDate = formatDate('DateFrom');
+                var toDate = formatDate('DateTo');
+                var manufactor = document.getElementById('ManufactorList').value;
+                var model = "0";
+                var fldModel = document.getElementById('ModelList');
+                if (fldModel.length > 0)
+                    model = fldModel.value;
+
+                var transmission = -1;
+                if ($('input[name=Transmission]:checked').length > 0) {
+                    if (document.getElementById('Automatic').checked) {
+                        transmission = 1;
+                    }
+                    if (document.getElementById('Manual').checked) {
+                        transmission = 0;
+                    }
+                }
+                var keywords = document.getElementById('Remarks').value;
+                //From: $("#DateFrom").val(),
+                //To: $("#DateTo").val(),
+                $.ajax({
+                    type: "GET",        // the Verb : GET
+                    url: "/Rental/SearchCars",
+                    data: {
+                        Transmission: transmission,
+                        Year: $("#YearList").val(),
+                        MamufId: manufactor,
+                        Model: model,
+                        From: fromDate,
+                        To: toDate,
+                        Keywords: keywords
+                    },
+                    success: function (cars) {
+                        
+                        //debugger;
+                        // Instead of doing ajax to get the names for history, I can save it here...
+                        var manufactorName = "";
+                        $("#CarsTable").empty();
+                        //$("#CarsTable").append("style = 'display: none;'");
+                        var trHeader = "<tr><th>Car No.</th><th>Manufactor</th><th>Model</th><th>Year</th><th>Automatic</th><th>Daily Rate</th><th>Image</th><th></th></tr>";
+                        $("#CarsTable").append(trHeader);
+                        for (var i = 0; i < cars.length; i++) {
+                            resultCounter += 1;
+                            var cb = "<input name='cb' id='cb" + i + "' type='checkbox' disabled='disabled'";
+                            if (cars[i].Auto) {
+                                cb += " checked = 'checked' >";
+                            }
+                            else {
+                                cb += " >";
+                            }
+                            var carImg = cars[i].Image;
+                            if (carImg == "") {
+                                carImg = "/Content/images/cars/Default.png";
+                            }
+                            var img = "<img src='/Content/images/cars/" + carImg + "' alt='" + cars[i].Manufactor + ' ' + cars[i].Model + "' width='130'/>"
+                            //var select = "<input id='btnSelectCar' type='button' value='Order this Car' autofocus />";
+                            var select = "<a class='btn btn-primary btn-lg specs-link' href='/Rental/OrderForm?orderNum=0&id=" + cars[i].FleetId + "&from=" + $("#DateFrom").val() + "&to=" + $("#DateTo").val() + "' target='_self'>Book This Car    <i class='icon icon-accessibility'></i></a>";
+                            var tr = "<tr><td align='center' style='width: 9%;'>" + cars[i].LicencePlate + "</td><td style='width: 15%;'>" + cars[i].Manufactor + "</td><td style='width: 15%;'>" + cars[i].Model + "</td><td align='center' style='width: 9%;'>" + cars[i].Year + "</td><td align='center' style='width: 9%;'>" + cb + "</td><td align='center' style='width: 9%;'>" + cars[i].DailyRentalRate + "</td><td style='width: 18%;'>" + img + "</td><td>" + select + "</td></tr>";
+                            $("#CarsTable").append(tr);
+                            if (manufactor != "0") {
+                                manufactorName = cars[i].Manufactor;
+                            }
+                        }
+                        if (model == "0") {
+                            model = "";
+                        }
+                        if (manufactor != "0" && manufactorName == "") {
+                            manufactorName = document.getElementById('ManufactorList').selectedOptions[0].innerHTML;
+                        }
+                        if (resultCounter == 0) {
+                            $("#CarsTable").empty();
+                            errorLabel.innerHTML = "Query returns no data.";
+                        }
+                        else {
+                            errorLabel.style.color = "green";
+                            errorLabel.style.fontSize = "smaller";
+                            errorLabel.style.marginTop = "2em";
+                            errorLabel.innerHTML = "Query retured " + resultCounter + " Record(s).";
+                        }
+                        // Save Search to History
+                        var timestamp = new Date().toISOString().slice(0, 19).replace(/[^0-9:-]/g, " ");
+                        
+                        var searchExp = "User=" + userName + "&Transmission=" + transmission + "&Year=" + $("#YearList").val() + "&MamufId=" + manufactorName + "&Model=" + model + "&FromDt=" + $("#DateFrom").val() + "&ToDt=" + $("#DateTo").val() + "&Keywords=" + keywords;
+                        
+                        localStorage.setItem("Search" + timestamp, searchExp);
+                        //localStorage.setItem("yourColor", "Blue");
+
+                    },
+                    error: function (err) {
+                        //debugger;
+                        //alert("Error :" + err.statusText);
+                        errorLabel.innerHTML = "Error :" + err.statusText;
+                    }
+                });
+            });
+        });
+    </script>
+}

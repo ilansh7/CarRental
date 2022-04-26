@@ -1,0 +1,89 @@
+﻿@using SunshineRentals
+@model IEnumerable<Rental>
+
+@{
+    ViewBag.Title = "Car Return";
+}
+
+<div>
+    <div style="float: left;">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div style="float: right; padding-top: 1.5em; padding-right: 1em;">
+        <img src="~/Content/images/icons/search.png" width="24" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="searchFilter" class="searchFilter" onkeyup="searchFilter(this.value, 'tblReturn', 5)" />
+    </div>
+</div>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<div id="dvReturn">
+    <table id="tblReturn" class="responstable">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fleet.LicencePlate)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.StartRentalDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndRentalDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualEndRental)
+            </th>
+            <th>Actions
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalId)
+                </td>
+                <td style="text-align: center;">
+                    @Html.DisplayFor(modelItem => item.Fleet.LicencePlate)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartRentalDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndRentalDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualEndRental)
+                </td>
+
+                <td>
+                    @if (item.ActualEndRental.ToString() == "")
+                    { 
+
+                        <a href='@Url.Action("CarReturnDetails", "Rental", new { id = item.RentalId })'>
+                            <img src='@Url.Content("~/Content/images/icons/editItem.png")' title='Modify order @item.RentalId for @item.Fleet.LicencePlate'/>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<SunshineRentals.Rental>
+
+@{
+    ViewBag.Title = "Orders of " + ViewBag.LicencePlate;
+}
+
+@{
+    Dictionary<int, string> rentalUsers = new Dictionary<int, string>();
+    rentalUsers = ViewBag.RentalUsers;
+}
+@Html.Hidden("count", 0)
+
+<div>
+    <div style="float: left;">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div style="float: right; padding-top: 1.5em; padding-right: 1em;">
+        <img src="~/Content/images/icons/search.png" width="24" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="searchFilter" class="searchFilter" onkeyup="searchFilter(this.value, 'tblFleet', 8)" />
+    </div>
+</div>
+
+<table id="tblFleet" class="responstable" >
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RentalId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fleet.Vehicle.Manufactor.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fleet.Vehicle.Model)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fleet.LicencePlate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartRentalDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndRentalDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActualEndRental)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalId)
+            </td>
+            <td>
+                @{
+        var dictKey = item.RentalId;
+        var dictValue = "";
+
+        if (rentalUsers.ContainsKey(dictKey)) { dictValue = rentalUsers[dictKey].Substring(0, rentalUsers[dictKey].Length - 1); }
+                }
+                @dictValue
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fleet.Vehicle.Manufactor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fleet.Vehicle.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fleet.LicencePlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartRentalDate, "ShortDateTime")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndRentalDate, "ShortDateTime")
+            </td>
+            <td>
+                @if (item.ActualEndRental.ToString() != "")
+                {
+                    @Html.DisplayFor(modelItem => item.ActualEndRental, "ShortDateTime")
+                }
+            </td>
+            @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RentalId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RentalId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RentalId })
+        </td>*@
+        </tr>
+    }
+
+</table>
+
+<style>
+    body {
+        margin: 1em;
+    }
+</style>

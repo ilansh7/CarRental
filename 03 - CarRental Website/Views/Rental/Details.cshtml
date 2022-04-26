@@ -1,0 +1,50 @@
+﻿@model SunshineRentals.Rental
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Rental</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Fleet.LicencePlate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fleet.LicencePlate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StartRentalDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StartRentalDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EndRentalDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EndRentalDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ActualEndRental)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ActualEndRental)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.RentalId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

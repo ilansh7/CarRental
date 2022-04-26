@@ -1,0 +1,224 @@
+﻿@{
+    Layout = (ViewEngines.Engines.FindView(this.ViewContext.Controller.ControllerContext, "_Layout", "").View as RazorView).ViewPath;
+}
+
+@model SunshineRentals.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "Order Form";
+}
+
+<p style="color: red;">
+    @ViewBag.ErrorMessage
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@Model.Manufactor @Model.Model : @Model.LicencePlate&nbsp;&nbsp;&nbsp;&nbsp;<label id="OrderText" style="background-color: lightgoldenrodyellow; font-weight: bolder;"></label></legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.DateFrom)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <input id="fDt" type="text" class="sg-input sg-input-text" readonly="true" value="@Model.DateFrom" />
+                            @*@Html.EditorFor(model => model.DateFrom)*@
+                            @*@Html.ValidationMessageFor(model => model.DateFrom)*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.DateTo)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.OrderNum)*@
+                            <input id="tDt" type="text" class="sg-input sg-input-text" readonly="true" value="@Model.DateTo" />
+                            @*@Html.ValidationMessageFor(model => model.DateTo)*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.DayRate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <input id="DayRate" type="text" class="sg-input sg-input-text" readonly="true" value="@Model.DayRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.OverdueRate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <input id="OverdueRate" type="text" class="sg-input sg-input-text" readonly="true" value="@Model.OverdueRate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.EstimatedCost)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <input id="EstimatedCost" type="text" class="sg-input sg-input-text" readonly="true" value="@Model.EstimatedCost" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<input type="submit" class="submitBtn" value="Order" />*@
+                            <input id="btnOrder" type="button" class="btn submitBtn" value="Order" autofocus />
+                            <input id="carId" type="hidden" value="@Model.FleetId" />
+                            <input id="userName" type="hidden" value="@User.Identity.Name" />
+                            @Html.HiddenFor(o => o.OrderNum, new { id = "OrderNum" } )
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>@Html.ActionLink("Back to Search List", "Search", "Rental")</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div style="width: 40%; float: left;">
+                <div class="editor-field">
+                    @*@Html.EditorFor(model => model.Image)*@
+                    <img id="img1" src="/Content/images/cars/@Model.ImageUrl"  alt="@Model.Manufactor + ' ' + @Model.Model"  width="520" />
+                    @*<input type="image" src=@model.Image />*@
+                    @*@Html.Image(model => model.ImageUrl , "", 148)*@
+
+                    @Html.HiddenFor(model => model.UserName)
+                    @Html.HiddenFor(model => model.ImageUrl)
+                    @Html.HiddenFor(model => model.Manufactor)
+                    @Html.HiddenFor(model => model.Model)
+                    @Html.HiddenFor(model => model.UserName)
+                    @Html.HiddenFor(model => model.DateFrom)
+                    @Html.HiddenFor(model => model.DateTo)
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+}
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <style>
+        body {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        tr {
+            height: 3em;
+        }
+        .submitBtn {
+            border-radius: 6px;
+            overflow: hidden;
+            background: rgb(254, 211, 0);
+            color: #000;
+            display: block;
+            float: left;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 10px;
+            text-decoration: none;
+            width: 120px;
+        }
+    </style>
+
+    <script>
+
+        // Fill Default Values
+        $(document).ready(function () {
+            //debugger;
+            var startDay = '@(Model.DateFrom)';
+            var endDay = '@(Model.DateTo)';
+            //var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/;
+            //var startDayArray = reggie.exec(startDay);
+            //var endDayArray = reggie.exec(endDay);
+            var t = new Date(startDay);
+            var sd = t.getDate().toString().padStart(2, "0");
+            var sm = (t.getMonth() + 1).toString().padStart(2, "0");
+            var sy = t.getFullYear().toString();
+            var startDate = sd + '/' + sm + "/" + sy;
+            //alert(startDate)
+            t = new Date(endDay);
+            var ed = t.getDate().toString().padStart(2, "0");
+            var em = (t.getMonth() + 1).toString().padStart(2, "0");
+            var ey = t.getFullYear().toString();
+            var endDate = ed + '/' + em + '/' + ey;
+            //startDate = startDayArray[1] + '/' + startDayArray[2] + '/' + startDayArray[3];// + 'T' + startDayArray[4] + ':' + startDayArray[5];
+            //var endDate = endDayArray[1] + '/' + endDayArray[2] + '/' + endDayArray[3];// + 'T' + endDayArray[4] + ':' + endDayArray[5];
+            // for type="date" 
+            //var startDate = startDayArray[3] + '-' + startDayArray[2] + '-' + startDayArray[1];// + 'T' + startDayArray[4] + ':' + startDayArray[5];
+            //var endDate = endDayArray[3] + '-' + endDayArray[2] + '-' + endDayArray[1];// + 'T' + endDayArray[4] + ':' + endDayArray[5];
+
+            document.getElementById("fDt").value = startDate;
+            document.getElementById("tDt").value = endDate;
+            //document.getElementById("tDateTo").value = new Date().toDateInputValue();
+            //04/07/2015 09:00:00
+
+            var orderNum = '@(Model.OrderNum)';
+            if (orderNum != "0") {
+                $("#OrderText").text('Mission accomplished. Order number : ' + orderNum);
+            }
+        });
+
+        $(function () {
+            $("#btnOrder").on('click', function (e) {
+                //debugger;
+                //alert("Yo");
+                if ($("#OrderText").text() != "") {
+                    alert("Order has ben placed. Thank you.");
+                    return;
+                }
+
+                var fromDate = document.getElementById('fDt').value;
+                var toDate = document.getElementById('tDt').value;
+
+                $.ajax({
+                    type: "GET",        // the Verb : GET
+                    url: "/Rental/PlaceOrder",
+                    data: {
+                        CarId: $("#carId").val(),
+                        User: $("#userName").val(),
+                        From: fromDate,
+                        To: toDate
+                    },
+                    success: function (order) {
+                        //debugger;
+                        if (order == "-1") {
+                            alert("Order has ben placed. Thank you.");
+                            $("#OrderNum").val(0);
+                            //return;
+                        }
+                        else {
+                            $("#OrderText").text('Mission accomplished. Order number : ' + order[0].Value);
+                            $("#OrderNum").val(order[0].Value);
+                        }
+                        $("#btnOrder").attr("disabled", true);
+                        //alert(order[0].Value);
+                    },
+                    error: function (err) {
+                        //debugger;
+                        alert("Error :" + err.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+}

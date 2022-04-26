@@ -1,0 +1,282 @@
+﻿@{
+    Layout = (ViewEngines.Engines.FindView(this.ViewContext.Controller.ControllerContext, "_Layout", "").View as RazorView).ViewPath;
+}
+
+@model SunshineRentals.Rental
+
+@{
+    ViewBag.Title = "Car Return Details";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="width: 45%; margin-left: auto; margin-right: auto;">
+        <fieldset style="width: 100%;">
+            <legend>@ViewBag.Title</legend>
+            <div style="width: 60%; float: left;">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Fleet.LicencePlate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.Fleet.LicencePlate   , new { htmlAttributes = new { @class = "sg-input sg-input-text" } })*@
+                            <input id="LicencePlate" name="LicencePlate" class="sg-input sg-input-text" type="text" value="@Model.Fleet.LicencePlate" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.StartRentalDate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.Fleet.LicencePlate   , new { htmlAttributes = new { @class = "sg-input sg-input-text" } })*@
+                            <input id="StartRentalDate" name="StartRentalDate" class="sg-input sg-input-text" type="date" value="@Model.StartRentalDate" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.EndRentalDate)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @*@Html.EditorFor(model => model.Fleet.LicencePlate   , new { htmlAttributes = new { @class = "sg-input sg-input-text" } })*@
+                            <input id="EndRentalDate" name="EndRentalDate" class="sg-input sg-input-text" type="date" value="@Model.EndRentalDate" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.ActualEndRental)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            <input id="ActualEndRental" name="ActualEndRental" class="sg-input sg-input-text" type="date" value="@Model.ActualEndRental" />
+                            <span id="ActualEndRentalError" style="font-size:smaller; color: red;"></span>
+                            @Html.ValidationMessageFor(model => model.ActualEndRental)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="submit" type="button" class="btn btn-primary btn-lg specs-link" value="Save" />
+                            <input id="btnsubmit" type="submit" style="visibility: hidden" />
+                            @Html.HiddenFor(model => model.RentalId)
+                            @Html.HiddenFor(model => model.FleetId)
+                            @Html.HiddenFor(model => model.StartRentalDate)
+                            @Html.HiddenFor(model => model.EndRentalDate)
+                            @Html.HiddenFor(model => model.UserId)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>@Html.ActionLink("Back to Returns", "CarReturn")</td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+}
+
+
+<style>
+    body {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    tr {
+        height: 3em;
+    }
+
+    input[type=date], input[type=time], input[type=datetime-local], input[type=month] {
+        line-height: 14px;
+        line-height: 1.42857143;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        // Fill Default Values
+        $(document).ready(function () {
+            //debugger;
+            var id = '@(Model.RentalId)';
+            var startDay = '@(Model.StartRentalDate)';
+            var endDay = '@(Model.EndRentalDate)';
+            var actualDay = '@(Model.ActualEndRental)';
+            var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/;
+            var startDayArray = reggie.exec(startDay);
+            var endDayArray = reggie.exec(endDay);
+
+            var startDate = startDayArray[3] + '-' + startDayArray[2] + '-' + startDayArray[1];// + 'T' + startDayArray[4] + ':' + startDayArray[5];
+            var endDate = endDayArray[3] + '-' + endDayArray[2] + '-' + endDayArray[1];
+
+            document.getElementById("StartRentalDate").value = startDate;
+            document.getElementById("EndRentalDate").value = endDate;
+
+            if (actualDay != "") {
+                var actualDayArray = reggie.exec(actualDay);
+                var actualDate = actualDayArray[3] + '-' + actualDayArray[2] + '-' + actualDayArray[1];
+                document.getElementById("ActualEndRental").value = actualDate;
+            }
+        });
+
+        $(document).ready(function (e) {
+            $("#submit").click(function (e) {
+                //debugger;
+                var fldActualDate = document.getElementById('ActualEndRental');
+                document.getElementById('ActualEndRentalError').innerText = "";
+                fldActualDate.style.backgroundColor = "white";
+                //validate date format
+                
+                var fldActualDateValue = Date.parse(fldActualDate.value);
+                if (isNaN(fldActualDateValue)) {
+                    //alert("From Date is not valid.");
+                    document.getElementById('ActualEndRentalError').innerText = "Mandatory Field.";
+                    fldActualDate.style.backgroundColor = "pink";
+                    return;
+                }
+
+                // check reasonable year
+                var reggie = /(\d{4})-(\d{2})-(\d{2})/;
+                var actualDayArray = reggie.exec(fldActualDate.value);
+                if (actualDayArray[1] > 2100 || actualDayArray[1] < 1970) {
+                    document.getElementById('ActualEndRentalError').innerText = "Illegal Date.";
+                    fldActualDate.style.backgroundColor = "pink";
+                    return;
+                }
+
+                var x = Math.abs(Date.parse(fldActualDate.value) - Date.parse(document.getElementById('EndRentalDate').value));
+                if (x > 259200000) {
+                    if (!confirm('Date diffarence is more than 3 days. Continue ?'))
+                        return false;
+                }
+                $('#btnsubmit').click();
+                //return false;
+                //var fldFDate = document.getElementById('DateFrom');
+                //var fldTDate = document.getElementById('DateTo');
+                //fldFDate.style.backgroundColor = "white";
+                //fldTDate.style.backgroundColor = "white";
+                ////var enteredDate = fldFDate.value;//("#DateFrom").prop("value");
+                //var fldFDateValue = Date.parse(fldFDate.value);
+                //if (isNaN(fldFDateValue)) {
+                //    alert("From Date is not valid.");
+                //    fldFDate.style.backgroundColor = "pink";
+                //    return;
+                //}
+                ////enteredDate = fldTDate.value;//("#DateFrom").prop("value");
+                ////parsed = Date.parse(enteredDate);
+                //var fldTDateValue = Date.parse(fldTDate.value);
+                //if (isNaN(fldTDateValue)) {
+                //    alert("To Date is not valid.");
+                //    fldTDate.style.backgroundColor = "pink";
+                //    return;
+                //}
+
+                //if (fldTDateValue - fldFDateValue < 0) {
+                //    alert("Illegal dates combination.");
+                //    fldFDate.style.backgroundColor = "pink";
+                //    return;
+                //}
+
+                //var resultCounter = 0;
+                //var userName = document.getElementById('username').value;
+                //var fromDate = formatDate('DateFrom');
+                //var toDate = formatDate('DateTo');
+                //var manufactor = document.getElementById('ManufactorList').value;
+                //var model = "0";
+                //var fldModel = document.getElementById('ModelList');
+                //if (fldModel.length > 0)
+                //    model = fldModel.value;
+
+                //var transmission = -1;
+                //if ($('input[name=Transmission]:checked').length > 0) {
+                //    if (document.getElementById('Automatic').checked) {
+                //        transmission = 1;
+                //    }
+                //    if (document.getElementById('Manual').checked) {
+                //        transmission = 0;
+                //    }
+                //}
+                //var keywords = document.getElementById('Remarks').value;
+
+                ////From: $("#DateFrom").val(),
+                ////To: $("#DateTo").val(),
+                //$.ajax({
+                //    type: "GET",        // the Verb : GET
+                //    url: "/Rental/SearchCars",
+                //    data: {
+                //        Transmission: transmission,
+                //        Year: $("#YearList").val(),
+                //        MamufId: manufactor,
+                //        Model: model,
+                //        From: fromDate,
+                //        To: toDate,
+                //        Keywords: keywords
+                //    },
+                //    success: function (cars) {
+                //        //alert(value);
+                //        debugger;
+                //        // Instead of doing ajax to get the names for history, I can save it here...
+                //        var manufactorName = "";
+                //        $("#CarsTable").empty();
+                //        //$("#CarsTable").append("style = 'display: none;'");
+                //        var trHeader = "<tr><th>Car No.</th><th>Manufactor</th><th>Model</th><th>Year</th><th>Automatic</th><th>Daily Rate</th><th>Image</th><th></th></tr>";
+                //        $("#CarsTable").append(trHeader);
+                //        for (var i = 0; i < cars.length; i++) {
+                //            resultCounter += 1;
+                //            var cb = "<input name='cb' id='cb" + i + "' type='checkbox' disabled='disabled'";
+                //            if (cars[i].Auto) {
+                //                cb += " checked = 'checked' >";
+                //            }
+                //            else {
+                //                cb += " >";
+                //            }
+                //            var carImg = cars[i].Image;
+                //            if (carImg == "") {
+                //                carImg = "/Content/images/cars/Default.png";
+                //            }
+                //            var img = "<img src='" + carImg + "' alt='" + cars[i].Manufactor + ' ' + cars[i].Model + "' width='130'/>"
+                //            //var select = "<input id='btnSelectCar' type='button' value='Order this Car' autofocus />";
+                //            var select = "<a class='btn btn-primary btn-lg specs-link' href='/Rental/OrderForm?orderNum=0&id=" + cars[i].FleetId + "&from=" + $("#DateFrom").val() + "&to=" + $("#DateTo").val() + "' target='_self'>Book This Car    <i class='icon icon-accessibility'></i></a>";
+                //            var tr = "<tr><td align='center' style='width: 9%;'>" + cars[i].LicencePlate + "</td><td style='width: 15%;'>" + cars[i].Manufactor + "</td><td style='width: 15%;'>" + cars[i].Model + "</td><td align='center' style='width: 9%;'>" + cars[i].Year + "</td><td align='center' style='width: 9%;'>" + cb + "</td><td align='center' style='width: 9%;'>" + cars[i].DailyRentalRate + "</td><td style='width: 18%;'>" + img + "</td><td>" + select + "</td></tr>";
+                //            $("#CarsTable").append(tr);
+                //            if (manufactor != "0") {
+                //                manufactorName = cars[i].Manufactor;
+                //            }
+                //        }
+                //        if (model == "0") {
+                //            model = "";
+                //        }
+                //        if (manufactor != "0" && manufactorName == "") {
+                //            manufactorName = document.getElementById('ManufactorList').selectedOptions[0].innerHTML;
+                //        }
+                //        if (resultCounter == 0) {
+                //            $("#CarsTable").empty();
+                //            alert("Query returns no data.");
+                //        }
+                //        // Save Search to History
+                //        var timestamp = new Date().toISOString().slice(0, 19).replace(/[^0-9:-]/g, " ");
+                //        //alert(timestamp);
+                //        var searchExp = "User=" + userName + "&Transmission=" + transmission + "&Year=" + $("#YearList").val() + "&MamufId=" + manufactorName + "&Model=" + model + "&FromDt=" + $("#DateFrom").val() + "&ToDt=" + $("#DateTo").val() + "&Keywords=" + keywords;
+                //        //alert(searchExp);
+                //        localStorage.setItem("Search" + timestamp, searchExp);
+                //        //localStorage.setItem("yourColor", "Blue");
+
+                //    },
+                //    error: function (err) {
+                //        //debugger;
+                //        alert("Error :" + err.statusText);
+                //    }
+                //});
+            });
+        });
+
+    </script>
+}
