@@ -36,6 +36,7 @@ namespace SunshineRentals
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<EventExtention> EventExtentions { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<vwAllEvent> vwAllEvents { get; set; }
     
         public virtual ObjectResult<GetAvailableCars_Result> GetAvailableCars(Nullable<int> isAutomatic, Nullable<int> year, Nullable<int> manufactor, string model, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string keywords)
         {
@@ -103,6 +104,19 @@ namespace SunshineRentals
                 new ObjectParameter("toDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertOrder", carIdParameter, userParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual int GetAvailableSlot(Nullable<int> eventTypeId, Nullable<System.DateTime> fromDate)
+        {
+            var eventTypeIdParameter = eventTypeId.HasValue ?
+                new ObjectParameter("eventTypeId", eventTypeId) :
+                new ObjectParameter("eventTypeId", typeof(int));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("fromDate", fromDate) :
+                new ObjectParameter("fromDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetAvailableSlot", eventTypeIdParameter, fromDateParameter);
         }
     }
 }

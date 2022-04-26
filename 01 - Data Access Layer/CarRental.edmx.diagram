@@ -17,6 +17,7 @@
         <AssociationConnector Association="CarRentalModel.UserVsRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CarRentalModel.EventExtention" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="CarRentalModel.Event" Width="1.5" PointX="5.125" PointY="6.25" />
+        <EntityTypeShape EntityType="CarRentalModel.vwAllEvent" Width="1.5" PointX="9.25" PointY="6.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

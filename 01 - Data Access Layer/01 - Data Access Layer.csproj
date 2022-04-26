@@ -51,11 +51,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarRental.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="CarRental.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CarRental.tt</DependentUpon>
-    </Compile>
     <Compile Include="CarRental.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,6 +68,9 @@
     <Compile Include="GetAvailableCars_Result.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetAvailableSlot_Result.cs">
+      <DependentUpon>CarRental.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetCarForRent_Result.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
@@ -82,6 +80,12 @@
     <Compile Include="Manufactor.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarRental.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PartialClass\EventView.cs" />
     <Compile Include="PartialClass\EventExtention.cs" />
     <Compile Include="PartialClass\Event.cs" />
     <Compile Include="PartialClass\Fleet.cs" />
@@ -102,6 +106,9 @@
     <Compile Include="Vehicle.cs">
       <DependentUpon>CarRental.tt</DependentUpon>
     </Compile>
+    <Compile Include="vwAllEvent.cs">
+      <DependentUpon>CarRental.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -117,15 +124,17 @@
     <None Include="CarRental.edmx.diagram">
       <DependentUpon>CarRental.edmx</DependentUpon>
     </None>
-    <None Include="CarRental.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CarRental.edmx</DependentUpon>
-      <LastGenOutput>CarRental.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CarRental.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>CarRental.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

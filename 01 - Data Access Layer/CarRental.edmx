@@ -99,6 +99,22 @@
           <Property Name="DailyRentalRate" Type="money" Nullable="false" />
           <Property Name="PenaltyDailyRate" Type="money" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CarRental.dbo.vwAllEvents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwAllEvents">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="EventSubject" />
+            <PropertyRef Name="EventStartDate" />
+            <PropertyRef Name="EventDuration" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="EventSubject" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventType" Type="nvarchar" MaxLength="100" />
+          <Property Name="EventStartDate" Type="datetime" Nullable="false" />
+          <Property Name="EventEndDate" Type="datetime" />
+          <Property Name="EventDuration" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK__UserVsRol__RoleI__37A5467C">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
           <End Role="UserVsRoles" Type="Self.UserVsRoles" Multiplicity="*" />
@@ -168,6 +184,10 @@
           <Parameter Name="toDate" Type="datetime" Mode="In" />
           <Parameter Name="keywords" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetAvailableSlot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventTypeId" Type="int" Mode="In" />
+          <Parameter Name="fromDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetCarForRent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -193,6 +213,16 @@
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserVsRoles" EntityType="Self.UserVsRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicles" EntityType="Self.Vehicles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwAllEvents" EntityType="Self.vwAllEvents" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vwAllEvents].[EventId] AS [EventId], 
+[vwAllEvents].[EventSubject] AS [EventSubject], 
+[vwAllEvents].[EventType] AS [EventType], 
+[vwAllEvents].[EventStartDate] AS [EventStartDate], 
+[vwAllEvents].[EventEndDate] AS [EventEndDate], 
+[vwAllEvents].[EventDuration] AS [EventDuration]
+FROM [dbo].[vwAllEvents] AS [vwAllEvents]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__UserVsRol__RoleI__37A5467C" Association="Self.FK__UserVsRol__RoleI__37A5467C">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="UserVsRoles" EntitySet="UserVsRoles" />
@@ -262,6 +292,11 @@
           </FunctionImport>
           <EntitySet Name="EventExtentions" EntityType="CarRentalModel.EventExtention" />
           <EntitySet Name="Events" EntityType="CarRentalModel.Event" />
+          <FunctionImport Name="GetAvailableSlot">
+            <Parameter Name="eventTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="vwAllEvents" EntityType="CarRentalModel.vwAllEvent" />
         </EntityContainer>
         <EntityType Name="Fleet">
           <Key>
@@ -427,6 +462,23 @@
           <Property Name="ThemeColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="IsFullDay" Type="Boolean" Nullable="false" />
         </EntityType>
+        <ComplexType Name="GetAvailableSlot_Result" >
+          <Property Type="Int32" Name="slotAvaiable" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="vwAllEvent">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="EventSubject" />
+            <PropertyRef Name="EventStartDate" />
+            <PropertyRef Name="EventDuration" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="EventSubject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EventType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EventStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventEndDate" Type="DateTime" Precision="3" />
+          <Property Name="EventDuration" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -575,6 +627,19 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAvailableSlot" FunctionName="CarRentalModel.Store.GetAvailableSlot" />
+          <EntitySetMapping Name="vwAllEvents">
+            <EntityTypeMapping TypeName="CarRentalModel.vwAllEvent">
+              <MappingFragment StoreEntitySet="vwAllEvents">
+                <ScalarProperty Name="EventDuration" ColumnName="EventDuration" />
+                <ScalarProperty Name="EventEndDate" ColumnName="EventEndDate" />
+                <ScalarProperty Name="EventStartDate" ColumnName="EventStartDate" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="EventSubject" ColumnName="EventSubject" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
